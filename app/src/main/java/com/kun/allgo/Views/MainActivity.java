@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.client.Firebase;
+import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 
 public class MainActivity extends AppCompatActivity
@@ -23,6 +25,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up Firebase
+        Firebase.setAndroidContext(this);
+        Firebase rootRef = new Firebase("https://allgo.firebaseio.com/android/saving-data/fireblog");
+
+        //Fake and save user
+        Firebase userref = rootRef.child("appusers").child("user1");
+        AppUser appUser = new AppUser();
+        appUser.setUserName("anhduy");
+        appUser.setFullName("Tran Anh Duy");
+        appUser.setPassword("123456");
+
+        userref.setValue(appUser);
+
+
+
         setContentView(R.layout.activity_main);
 
         MainFragment fragment = new MainFragment();
