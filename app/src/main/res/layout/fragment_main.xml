@@ -1,15 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/rcvWorkspace"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.MainFragment">
+    android:layout_marginTop="?attr/actionBarSize"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:text="MAIN"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</RelativeLayout>
+</android.support.v7.widget.RecyclerView>
