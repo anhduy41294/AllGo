@@ -21,6 +21,14 @@
         <activity
             android:name=".Views.AddWorkspaceActivity"
             android:label="@string/title_activity_add_workspace"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Views.AddRoomActivity"
+            android:label="@string/title_activity_add_room"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Views.AddLocalAccountActivity"
+            android:label="@string/title_activity_add_local_account"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

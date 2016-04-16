@@ -29,7 +29,7 @@ public class AddWorkspaceActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getFormWidget();
-        //addEvent();
+        addEvent();
     }
 
     private void getFormWidget() {
