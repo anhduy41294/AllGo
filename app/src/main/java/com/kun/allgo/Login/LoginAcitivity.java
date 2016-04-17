@@ -14,6 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -30,20 +36,31 @@ public class LoginAcitivity extends AppCompatActivity {
     private Firebase mFirebaseRef;
     private EditText mEditTextEmailInput, mEditTextPasswordInput;
     private Button signInPasswordBtn, goMainBtn;
+    private LoginButton loginButtonFB;
     private TextView signUPTextView;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /**
+         * Initialize Facebook Login
+         */
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         /**
          * Create Firebase references
          */
         Firebase.setAndroidContext(this);
         mFirebaseRef = new Firebase(Constant.FIREBASE_URL);
+
+
+
 
         /**
          * Link layout elements from XML and setup progress dialog
@@ -91,6 +108,7 @@ public class LoginAcitivity extends AppCompatActivity {
         signInPasswordBtn = (Button) findViewById(R.id.login_with_password);
         goMainBtn = (Button) findViewById(R.id.goMainBtn);
         signUPTextView = (TextView) findViewById(R.id.tv_sign_up);
+        loginButtonFB = (LoginButton) findViewById(R.id.login_with_facebook);
 //        LinearLayout linearLayoutLoginActivity = (LinearLayout) findViewById(R.id.linear_layout_login_activity);
 //        initializeBackground(linearLayoutLoginActivity);
 
@@ -126,6 +144,36 @@ public class LoginAcitivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        /**
+         * Setup Facebook SignIn
+         */
+
+        callbackManager = CallbackManager.Factory.create();
+
+        loginButtonFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(), "Login attempt canceled", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getApplicationContext(), "Login attempt failed.", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

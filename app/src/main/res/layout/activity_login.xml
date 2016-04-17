@@ -89,8 +89,14 @@
             android:text="go to main"
             android:id="@+id/goMainBtn"/>
 
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/login_with_google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_with_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -50,4 +50,5 @@
     <string name="text_already_have_account">Already have an account</string>
     <string name="button_sign_in">Sign in</string>
     <string name="progress_dialog_creating_user_with_firebase">Attempting to create account...</string>
+    <string name="facebook_app_id">1047736571954866</string>
 </resources>
