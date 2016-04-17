@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.firebase.client.Firebase;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
+import com.kun.allgo.Services.UsersService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity
 
         //Set up Firebase
         Firebase.setAndroidContext(this);
-        Firebase rootRef = new Firebase("https://allgo.firebaseio.com/android/saving-data/fireblog");
+        /*Firebase rootRef = new Firebase("https://allgo.firebaseio.com/android/saving-data/fireblog");
 
         //Fake and save user
         Firebase userref = rootRef.child("appusers").child("user1");
@@ -34,7 +35,12 @@ public class MainActivity extends AppCompatActivity
         appUser.setFullName("Tran Anh Duy");
         appUser.setPassword("123456");
 
-        userref.setValue(appUser);
+        userref.setValue(appUser);*/
+
+        UsersService usersService = new UsersService();
+
+        AppUser appUser = new AppUser();
+        usersService.StoreNewUser(appUser);
 
 
 
