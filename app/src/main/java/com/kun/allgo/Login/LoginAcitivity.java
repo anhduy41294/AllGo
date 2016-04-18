@@ -36,17 +36,18 @@ public class LoginAcitivity extends AppCompatActivity {
     private Firebase mFirebaseRef;
     private EditText mEditTextEmailInput, mEditTextPasswordInput;
     private Button signInPasswordBtn, goMainBtn;
-    private LoginButton loginButtonFB;
     private TextView signUPTextView;
+    private LoginButton loginButtonFacebook;
     private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /**
-         * Initialize Facebook Login
+         * Initialize Facebook
          */
         FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,8 +59,6 @@ public class LoginAcitivity extends AppCompatActivity {
          */
         Firebase.setAndroidContext(this);
         mFirebaseRef = new Firebase(Constant.FIREBASE_URL);
-
-
 
 
         /**
@@ -80,7 +79,50 @@ public class LoginAcitivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+        /**
+         * Setup Login Facebook
+         */
+        loginButtonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getToken(), Toast.LENGTH_SHORT).show();
+
+                mFirebaseRef = new Firebase(Constant.FIREBASE_URL);
+
+                mFirebaseRef.authWithOAuthToken("facebook", loginResult.getAccessToken().getToken(),
+                        new Firebase.AuthResultHandler() {
+                            @Override
+                            public void onAuthenticated(AuthData authData) {
+                                startActivity(new Intent(getApplication(),MainActivity.class));
+
+                            }
+
+                            @Override
+                            public void onAuthenticationError(FirebaseError firebaseError) {
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(), "Login Cancel", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     private void signInPassword() {
         String email = mEditTextEmailInput.getText().toString();
@@ -108,7 +150,10 @@ public class LoginAcitivity extends AppCompatActivity {
         signInPasswordBtn = (Button) findViewById(R.id.login_with_password);
         goMainBtn = (Button) findViewById(R.id.goMainBtn);
         signUPTextView = (TextView) findViewById(R.id.tv_sign_up);
-        loginButtonFB = (LoginButton) findViewById(R.id.login_with_facebook);
+        loginButtonFacebook = (LoginButton) findViewById(R.id.login_button_facebook);
+
+
+
 //        LinearLayout linearLayoutLoginActivity = (LinearLayout) findViewById(R.id.linear_layout_login_activity);
 //        initializeBackground(linearLayoutLoginActivity);
 
@@ -145,35 +190,8 @@ public class LoginAcitivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * Setup Facebook SignIn
-         */
 
-        callbackManager = CallbackManager.Factory.create();
 
-        loginButtonFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getApplicationContext(), loginResult.getAccessToken().getUserId(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(getApplicationContext(), "Login attempt canceled", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), "Login attempt failed.", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
