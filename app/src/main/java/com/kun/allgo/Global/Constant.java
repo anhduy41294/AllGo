@@ -14,4 +14,6 @@ public final class Constant {
      * Constants for Firebase login
      */
     public static final String PASSWORD_PROVIDER = "password";
+    public static final String FIREBASE_URL_USERS = "https://allgo.firebaseio.com/users";
+
 }

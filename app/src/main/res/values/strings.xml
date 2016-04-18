@@ -51,4 +51,5 @@
     <string name="button_sign_in">Sign in</string>
     <string name="progress_dialog_creating_user_with_firebase">Attempting to create account...</string>
     <string name="facebook_app_id">1047736571954866</string>
+    <string name="log_error_occurred">Error occurred:</string>
 </resources>

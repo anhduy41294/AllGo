@@ -9,16 +9,21 @@ public class AppUser {
 
     private int mIdUser;
     private String mUserName;
-    private String mPassword;
+    private String mEmail;
     private String mFullName;
     private ArrayList<Workspace> mListWorkspace;
 
-    public AppUser(int mIdUser, String mUserName, String mPassword, String mFullName, ArrayList<Workspace> mListWorkspace) {
+    public AppUser(int mIdUser, String mUserName, String mEmail, String mFullName, ArrayList<Workspace> mListWorkspace) {
         this.mIdUser = mIdUser;
         this.mUserName = mUserName;
-        this.mPassword = mPassword;
+        this.mEmail = mEmail;
         this.mFullName = mFullName;
         this.mListWorkspace = mListWorkspace;
+    }
+
+    public AppUser(String mUserName, String mEmail){
+        this.mUserName = mUserName;
+        this.mEmail = mEmail;
     }
 
     public AppUser() {
@@ -40,12 +45,12 @@ public class AppUser {
         this.mUserName = mUserName;
     }
 
-    public String getPassword() {
-        return mPassword;
+    public String getmEmail() {
+        return mEmail;
     }
 
-    public void setPassword(String mPassword) {
-        this.mPassword = mPassword;
+    public void setmEmail(String mEmail) {
+        this.mEmail = mEmail;
     }
 
     public String getFullName() {

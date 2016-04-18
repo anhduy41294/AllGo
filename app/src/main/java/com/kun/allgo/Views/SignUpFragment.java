@@ -63,7 +63,7 @@ public class SignUpFragment extends Fragment {
                 appUser.setIdUser(autoCreateId());
 
                 appUser.setUserName(edtUserName.getContext().toString());
-                appUser.setPassword(edtPassword.getContext().toString());
+                //appUser.setPassword(edtPassword.getContext().toString());
                 appUser.setFullName(edtFullName.getContext().toString());
 
                 saveAccount(appUser);
