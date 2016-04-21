@@ -38,8 +38,8 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder,int position){
         Workspace current= data.get(position);
-        holder.txtWorkspaceName.setText(current.getWorkspaceName());
-        holder.txtWorkspaceDescription.setText(current.getWorkspaceDescription());
+        holder.txtWorkspaceName.setText(current.getmWorkspaceName());
+        holder.txtWorkspaceDescription.setText(current.getmWorkspaceDescription());
     }
 
     @Override

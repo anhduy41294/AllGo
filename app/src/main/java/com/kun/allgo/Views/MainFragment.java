@@ -55,10 +55,7 @@ public class MainFragment extends Fragment {
 
     private List<Workspace> getWorkspaceData() {
         List<Workspace> workspaces = new ArrayList<Workspace>();
-        workspaces.add(new Workspace(1,"Nha tro", "day la nha tro", 1, 1, 1, null));
-        workspaces.add(new Workspace(1,"Nha tro", "day la nha tro", 1, 1, 1, null));
-        workspaces.add(new Workspace(1,"Nha tro", "day la nha tro", 1, 1, 1, null));
-        workspaces.add(new Workspace(1,"Nha tro", "day la nha tro", 1, 1, 1, null));
+
         return workspaces;
     }
 

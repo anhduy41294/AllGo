@@ -24,6 +24,8 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.kun.allgo.Global.Constant;
+import com.kun.allgo.Global.GlobalVariable;
+import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.MainActivity;
 
@@ -215,6 +217,7 @@ public class LoginAcitivity extends AppCompatActivity {
             mAuthProgressDialog.dismiss();
             Log.i(LOG_TAG, provider + " " + getString(R.string.log_message_auth_successful));
             if (authData != null) {
+                GlobalVariable.currentUserId = authData.getUid();
                 /* Go to main activity */
                 Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -1,9 +1,15 @@
 package com.kun.allgo.Services;
 
+import android.util.Log;
+
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Models.AppUser;
+import com.kun.allgo.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,33 +19,42 @@ import java.util.Map;
  */
 public class UsersService {
 
-    private String mUrl = "https://allgo.firebaseio.com/";
-    private Firebase ref = new Firebase(mUrl);
+    private Firebase userRef = new Firebase(Constant.FIREBASE_URL_USERS);
 
     public UsersService() {
 
     }
 
-    public boolean StoreNewUser(AppUser appUser) {
+    public boolean StoreNewUser(final AppUser appUser) {
 
-        ref.authWithPassword("jenny@example.com", "password",
-                new Firebase.AuthResultHandler() {
-                    @Override
-                    public void onAuthenticated(AuthData authData) {
-                        // Authentication just completed successfully :)
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("provider", authData.getProvider());
-                        if(authData.getProviderData().containsKey("displayName")) {
-                            map.put("displayName", authData.getProviderData().get("displayName").toString());
-                        }
-                        ref.child("users").child(authData.getUid()).setValue(map);
-                    }
-                    @Override
-                    public void onAuthenticationError(FirebaseError error) {
-                        // Something went wrong :(
-                    }
-                });
+        final Firebase newUserRef = userRef.child(appUser.getmUserId());
 
+        /**
+         * See if there is already a user (for example, if they already logged in with an associated
+         * Google account.
+         */
+        newUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                /* If there is no user, make one */
+                if (dataSnapshot.getValue() == null) {
+                 /* Set raw version of date to the ServerValue.TIMESTAMP value and save into dateCreatedMap */
+//                    HashMap<String, Object> timestampJoined = new HashMap<>();
+//                    timestampJoined.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+
+                    //AppUser newUser = new AppUser(mUserName, mUserEmail);
+                    //userLocation.setValue(newUser);
+                    newUserRef.child("userName").setValue(appUser.getUserName());
+                    newUserRef.child("userEmail").setValue(appUser.getmEmail());
+                    newUserRef.child("workSpaces").setValue(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.d("store new user", "Error occurred: " + firebaseError.getMessage());
+            }
+        });
         return true;
     }
 
@@ -59,19 +74,4 @@ public class UsersService {
         return false;
     }
 
-    public String getUrl() {
-        return mUrl;
-    }
-
-    public void setUrl(String mUrl) {
-        this.mUrl = mUrl;
-    }
-
-    public Firebase getRef() {
-        return ref;
-    }
-
-    public void setRef(Firebase ref) {
-        this.ref = ref;
-    }
 }

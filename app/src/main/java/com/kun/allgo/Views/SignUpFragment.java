@@ -60,11 +60,11 @@ public class SignUpFragment extends Fragment {
                 //Thực hiểm kiểm tra password
 
                 // Thực hiện get Id User
-                appUser.setIdUser(autoCreateId());
-
-                appUser.setUserName(edtUserName.getContext().toString());
-                //appUser.setPassword(edtPassword.getContext().toString());
-                appUser.setFullName(edtFullName.getContext().toString());
+//                appUser.setIdUser(autoCreateId());
+//
+//                appUser.setUserName(edtUserName.getContext().toString());
+//                //appUser.setPassword(edtPassword.getContext().toString());
+//                appUser.setFullName(edtFullName.getContext().toString());
 
                 saveAccount(appUser);
             }

@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity
         appUser.setPassword("123456");
 
         userref.setValue(appUser);*/
-
-        UsersService usersService = new UsersService();
-
-        AppUser appUser = new AppUser();
-        usersService.StoreNewUser(appUser);
+//
+//        UsersService usersService = new UsersService();
+//
+//        AppUser appUser = new AppUser();
+//        usersService.StoreNewUser(appUser);
 
 
 

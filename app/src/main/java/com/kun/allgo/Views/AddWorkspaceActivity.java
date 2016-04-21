@@ -32,6 +32,7 @@ import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.kun.allgo.Services.WorkspaceService;
 
 public class AddWorkspaceActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener{
 
@@ -45,7 +46,8 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
-    private Workspace workspace = new Workspace();
+    //private Workspace workspace = new Workspace();
+    private WorkspaceService workspaceService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,7 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
         // Create an instance of GoogleAPIClient.
         buildGoogleApiClient();
         //
+        workspaceService = new WorkspaceService();
 
         getFormWidget();
         addEvent();
@@ -113,6 +116,14 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
     }
 
     private boolean saveWorkspace() {
+
+        String workspaceName = edtWordSpaceName.getText().toString();
+        String workspaceDescription = edtWorkspaceDescription.getText().toString();
+        Double latitude = Double.valueOf(edtLatitde.getText().toString());
+        Double longitude = Double.valueOf(edtLongitude.getText().toString());
+
+        Workspace workspace = new Workspace("", workspaceName, workspaceDescription, "", latitude, longitude);
+        workspaceService.SaveNewWorkspace(workspace);
         return true;
     }
 

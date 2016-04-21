@@ -21,6 +21,7 @@ import com.firebase.client.ValueEventListener;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
+import com.kun.allgo.Services.UsersService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     //Thêm
     private Button mButtonCreateAccount;
     private TextView mTextViewSignIn;
+    private UsersService usersService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mFirebaseRef = new Firebase(Constant.FIREBASE_URL);
+        usersService = new UsersService();
         initializeScreen();
         addEvent();
     }
@@ -111,15 +114,20 @@ public class CreateAccountActivity extends AppCompatActivity {
                 /* Dismiss the progress dialog */
                 mAuthProgressDialog.dismiss();
                 Log.i(LOG_TAG, getString(R.string.log_message_auth_successful));
-                String uid = (String) result.get("uid");
-                createUserInFirebaseHelper(uid);
+//                String uid = (String) result.get("uid");
+//                String email = (String) result.get("email");
+                AppUser newUser = new AppUser(result.get("uid").toString() ,mUserName, mUserEmail);
+                usersService.StoreNewUser(newUser);
+
+                Intent intent = new Intent(getApplicationContext(), LoginAcitivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
             public void onError(FirebaseError firebaseError) {
                 /* Error occurred, log the error and dismiss the progress dialog */
-                Log.d(LOG_TAG, getString(R.string.log_error_occurred) +
-                        firebaseError);
+                Log.d(LOG_TAG, getString(R.string.log_error_occurred) + firebaseError);
                 mAuthProgressDialog.dismiss();
                 /* Display the appropriate error message */
                 if (firebaseError.getCode() == FirebaseError.EMAIL_TAKEN) {
@@ -135,9 +143,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     /**
      * Creates a new user in Firebase from the Java POJO
      */
-    private void createUserInFirebaseHelper(String uid) {
+    private void createUserInFirebaseHelper(String email) {
 
-        final Firebase userLocation = new Firebase(Constant.FIREBASE_URL_USERS).child(uid);
+        final Firebase userLocation = new Firebase(Constant.FIREBASE_URL_USERS).child(email);
         /**
          * See if there is already a user (for example, if they already logged in with an associated
          * Google account.
@@ -151,8 +159,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 //                    HashMap<String, Object> timestampJoined = new HashMap<>();
 //                    timestampJoined.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
 
-                    AppUser newUser = new AppUser(mUserName, mUserEmail);
-                    userLocation.setValue(newUser);
+                    //AppUser newUser = new AppUser(mUserName, mUserEmail);
+                    //userLocation.setValue(newUser);
+                    userLocation.child("userName").setValue(mUserName);
+                    userLocation.child("workSpaces").setValue(null);
                 }
             }
 

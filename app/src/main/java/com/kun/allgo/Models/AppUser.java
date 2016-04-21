@@ -6,22 +6,13 @@ import java.util.ArrayList;
  * App User
  */
 public class AppUser {
-
-    private int mIdUser;
+    private String mUserId;
     private String mUserName;
     private String mEmail;
-    private String mFullName;
-    private ArrayList<Workspace> mListWorkspace;
 
-    public AppUser(int mIdUser, String mUserName, String mEmail, String mFullName, ArrayList<Workspace> mListWorkspace) {
-        this.mIdUser = mIdUser;
-        this.mUserName = mUserName;
-        this.mEmail = mEmail;
-        this.mFullName = mFullName;
-        this.mListWorkspace = mListWorkspace;
-    }
 
-    public AppUser(String mUserName, String mEmail){
+    public AppUser(String mUserId ,String mUserName, String mEmail) {
+        this.mUserId = mUserId;
         this.mUserName = mUserName;
         this.mEmail = mEmail;
     }
@@ -29,12 +20,12 @@ public class AppUser {
     public AppUser() {
     }
 
-    public int getIdUser() {
-        return mIdUser;
+    public String getmUserId() {
+        return mUserId;
     }
 
-    public void setIdUser(int mIdUser) {
-        this.mIdUser = mIdUser;
+    public void setmUserId(String mUserId) {
+        this.mUserId = mUserId;
     }
 
     public String getUserName() {
@@ -53,19 +44,4 @@ public class AppUser {
         this.mEmail = mEmail;
     }
 
-    public String getFullName() {
-        return mFullName;
-    }
-
-    public void setFullName(String mFullName) {
-        this.mFullName = mFullName;
-    }
-
-    public ArrayList<Workspace> getListWorkspace() {
-        return mListWorkspace;
-    }
-
-    public void setListWorkspace(ArrayList<Workspace> mListWorkspace) {
-        this.mListWorkspace = mListWorkspace;
-    }
 }

@@ -7,6 +7,7 @@ import com.kun.allgo.Models.AppUser;
  */
 public class GlobalVariable {
     public static AppUser CurrentAppUser;
+    public static String currentUserId;
     public static String latitude = "";
     public static String longititude = "";
 }
