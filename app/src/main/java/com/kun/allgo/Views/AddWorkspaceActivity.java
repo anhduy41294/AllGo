@@ -111,6 +111,9 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
             public void onClick(View v) {
                 //Thực hiện save Workspace
                 saveWorkspace();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
             }
         });
     }

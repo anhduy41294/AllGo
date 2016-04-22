@@ -1,14 +1,24 @@
 package com.kun.allgo.Views.Adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.kun.allgo.Global.Constant;
+import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
+import com.kun.allgo.Views.RoomFragment;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,12 +30,14 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
 
     private LayoutInflater layoutInflater;
     List<Workspace> data= Collections.emptyList();
-    private Context context;
+    public Context context;
+    FragmentManager fragmentManager;
 
-    public WorkspaceAdapter(Context context,List<Workspace>data){
+    public WorkspaceAdapter(Context context, List<Workspace>data, FragmentManager fragmentManager){
         this.context=context;
-        layoutInflater=LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context);
         this.data=data;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -37,9 +49,21 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder,int position){
-        Workspace current= data.get(position);
-        holder.txtWorkspaceName.setText(current.getmWorkspaceName());
-        holder.txtWorkspaceDescription.setText(current.getmWorkspaceDescription());
+        final Workspace workspace = data.get(position);
+        holder.txtWorkspaceName.setText(workspace.getmWorkspaceName());
+        holder.txtWorkspaceDescription.setText(workspace.getmWorkspaceDescription());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVariable.currentWorkspaceId = workspace.getmIdWorkspace();
+                Log.d("id", GlobalVariable.currentWorkspaceId);
+                RoomFragment roomFragment = new RoomFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, roomFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     @Override
@@ -51,11 +75,13 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
 
         TextView txtWorkspaceName;
         TextView txtWorkspaceDescription;
+        CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txtWorkspaceName = (TextView) itemView.findViewById(R.id.txtWorkspaceName);
             txtWorkspaceDescription = (TextView) itemView.findViewById(R.id.txtWorkspaceDescription);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
 }

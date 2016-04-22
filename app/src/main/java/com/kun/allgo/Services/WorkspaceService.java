@@ -47,6 +47,27 @@ public class WorkspaceService {
         return true;
     }
 
+//    public Workspace LoadWorkspace(final String workspaceId){
+//        workspaceRef.child(workspaceId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String workspaceName = dataSnapshot.child("workspaceName").getValue().toString();
+//                String workspaceDescription = dataSnapshot.child("workspaceDescription").getValue().toString();
+//                String workspaceImage = dataSnapshot.child("workspaceImage").getValue().toString();
+//                Double latitude = Double.valueOf(dataSnapshot.child("latitude").getValue().toString());
+//                Double longitude = Double.valueOf(dataSnapshot.child("longitude").getValue().toString());
+//
+//                Workspace workspace = new Workspace(workspaceId, workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+//    }
+
 //    public List<Workspace> LoadAllWorkspaceOfCurrentUser() {
 //        final List<Workspace> workspaces = new ArrayList<Workspace>();
 //

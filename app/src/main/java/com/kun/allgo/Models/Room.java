@@ -6,60 +6,50 @@ import java.util.ArrayList;
  * Room
  */
 public class Room {
-    private int mIdRoom;
+    private String mIdRoom;
     private String mRoomName;
     private String mRoomDescription;
-    private int mImageRoom;
-    private ArrayList<LocalAccount> mListLocalAccount;
+    private String mImageRoom;
 
-    public Room(int mIdRoom, String mRoomName, String mRoomDescription, int mImageRoom, ArrayList<LocalAccount> mListLocalAccount) {
+    public Room(String mIdRoom, String mRoomName, String mRoomDescription, String mImageRoom) {
         this.mIdRoom = mIdRoom;
         this.mRoomName = mRoomName;
         this.mRoomDescription = mRoomDescription;
         this.mImageRoom = mImageRoom;
-        this.mListLocalAccount = mListLocalAccount;
     }
 
     public Room() {
     }
 
-    public int getIdRoom() {
+    public String getmIdRoom() {
         return mIdRoom;
     }
 
-    public void setIdRoom(int mIdRoom) {
+    public void setmIdRoom(String mIdRoom) {
         this.mIdRoom = mIdRoom;
     }
 
-    public String getRoomName() {
+    public String getmRoomName() {
         return mRoomName;
     }
 
-    public void setRoomName(String mRoomName) {
+    public void setmRoomName(String mRoomName) {
         this.mRoomName = mRoomName;
     }
 
-    public String getRoomDescription() {
+    public String getmRoomDescription() {
         return mRoomDescription;
     }
 
-    public void setRoomDescription(String mRoomDescription) {
+    public void setmRoomDescription(String mRoomDescription) {
         this.mRoomDescription = mRoomDescription;
     }
 
-    public int getImageRoom() {
+    public String getmImageRoom() {
         return mImageRoom;
     }
 
-    public void setImageRoom(int mImageRoom) {
+    public void setmImageRoom(String mImageRoom) {
         this.mImageRoom = mImageRoom;
-    }
-
-    public ArrayList<LocalAccount> getListLocalAccount() {
-        return mListLocalAccount;
-    }
-
-    public void setListLocalAccount(ArrayList<LocalAccount> mListLocalAccount) {
-        this.mListLocalAccount = mListLocalAccount;
     }
 }

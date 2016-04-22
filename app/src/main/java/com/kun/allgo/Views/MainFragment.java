@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,8 +49,10 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommend");
+        listWorkspace.clear();
         Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
-        workspaceRef.addValueEventListener(new ValueEventListener() {
+        workspaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot workspaceSnap: dataSnapshot.getChildren()) {
@@ -82,7 +85,7 @@ public class MainFragment extends Fragment {
         recyclerViewWorkspace = (RecyclerView) view.findViewById(R.id.rcvWorkspace);
         recyclerViewWorkspace.setHasFixedSize(true);
         recyclerViewWorkspace.setLayoutManager(new LinearLayoutManager(getActivity()));
-        workspaceAdapter = new WorkspaceAdapter(getContext(), listWorkspace);
+        workspaceAdapter = new WorkspaceAdapter(getContext(), listWorkspace, getActivity().getSupportFragmentManager());
 
         recyclerViewWorkspace.setAdapter(workspaceAdapter);
 

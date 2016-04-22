@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +34,10 @@ public class RoomFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_room, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Rooms");
 
         getFormWidget();
         addEvent();
@@ -45,14 +47,19 @@ public class RoomFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AddRoomActivity.class);
-                startActivity(i);
+                AddRoomFragment addRoomFragment = new AddRoomFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, addRoomFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
 
     private void getFormWidget() {
-        recyclerViewRoom = (RecyclerView) view.findViewById(R.id.rcvWorkspace);
+        recyclerViewRoom = (RecyclerView) view.findViewById(R.id.rcvRoom);
+        recyclerViewRoom.setHasFixedSize(true);
+        recyclerViewRoom.setLayoutManager(new LinearLayoutManager(getActivity()));
         roomAdapter = new RoomAdapter(getContext(),getRoomData());
 
         recyclerViewRoom.setAdapter(roomAdapter);
@@ -64,7 +71,6 @@ public class RoomFragment extends Fragment {
     private List<Room> getRoomData() {
 
         List<Room> room = new ArrayList<Room>();
-        room.add(new Room());
         return room;
     }
 }
