@@ -11,6 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.kun.allgo.Global.Constant;
+import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.Adapter.WorkspaceAdapter;
@@ -28,6 +34,7 @@ public class WorkspaceFragment extends Fragment {
     private View view;
 
     private FloatingActionButton fab;
+    public List<Workspace> listWorkspace = new ArrayList<>();
 
     public WorkspaceFragment() {
         // Required empty public constructor
@@ -37,8 +44,32 @@ public class WorkspaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_workspace, container, false);
-        getFormWidget();
-        addEvent();
+
+        Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
+        workspaceRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot workspaceSnap: dataSnapshot.getChildren()) {
+                    if (workspaceSnap.child("users/" + GlobalVariable.currentUserId).getValue() != null){
+                        String workspaceName = workspaceSnap.child("workspaceName").getValue().toString();
+                        String workspaceDescription = workspaceSnap.child("workspaceDescription").getValue().toString();
+                        String workspaceImage = workspaceSnap.child("workspaceImage").getValue().toString();
+                        Double latitude = Double.valueOf(workspaceSnap.child("latitude").getValue().toString());
+                        Double longitude = Double.valueOf(workspaceSnap.child("longitude").getValue().toString());
+
+                        Workspace workspace = new Workspace(workspaceSnap.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+                        listWorkspace.add(workspace);
+                    }
+                }
+                getFormWidget();
+                addEvent();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
         // Inflate the layout for this fragment
         return view;
     }
@@ -55,7 +86,7 @@ public class WorkspaceFragment extends Fragment {
 
     private void getFormWidget() {
         recyclerViewWorkspace = (RecyclerView) view.findViewById(R.id.rcvWorkspace);
-        workspaceAdapter = new WorkspaceAdapter(getContext(),getWorkspaceData());
+        workspaceAdapter = new WorkspaceAdapter(getContext(),listWorkspace);
 
         recyclerViewWorkspace.setAdapter(workspaceAdapter);
 
