@@ -49,32 +49,60 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
 
+
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommend");
         listWorkspace.clear();
-        Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
-        workspaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot workspaceSnap: dataSnapshot.getChildren()) {
-                    if (workspaceSnap.child("users/" + GlobalVariable.currentUserId).getValue() != null){
-                        String workspaceName = workspaceSnap.child("workspaceName").getValue().toString();
-                        String workspaceDescription = workspaceSnap.child("workspaceDescription").getValue().toString();
-                        String workspaceImage = workspaceSnap.child("workspaceImage").getValue().toString();
-                        Double latitude = Double.valueOf(workspaceSnap.child("latitude").getValue().toString());
-                        Double longitude = Double.valueOf(workspaceSnap.child("longitude").getValue().toString());
+//        Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
+//        workspaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot workspaceSnap: dataSnapshot.getChildren()) {
+//                    if (workspaceSnap.child("users/" + GlobalVariable.currentUserId).getValue() != null){
+//                        String workspaceName = workspaceSnap.child("workspaceName").getValue().toString();
+//                        String workspaceDescription = workspaceSnap.child("workspaceDescription").getValue().toString();
+//                        String workspaceImage = workspaceSnap.child("workspaceImage").getValue().toString();
+//                        Double latitude = Double.valueOf(workspaceSnap.child("latitude").getValue().toString());
+//                        Double longitude = Double.valueOf(workspaceSnap.child("longitude").getValue().toString());
+//
+//                        Workspace workspace = new Workspace(workspaceSnap.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+//                        listWorkspace.add(workspace);
+//                    }
+//                }
+//                getFormWidget();
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
 
-                        Workspace workspace = new Workspace(workspaceSnap.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+        if (GlobalVariable.CurrentAppUser.getListWorkSpace() != null) {
+            for (String workSpaceId : GlobalVariable.CurrentAppUser.getListWorkSpace()) {
+                Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES + "/" + workSpaceId);
+                workspaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String workspaceName = dataSnapshot.child("workspaceName").getValue().toString();
+                        String workspaceDescription = dataSnapshot.child("workspaceDescription").getValue().toString();
+                        String workspaceImage = dataSnapshot.child("workspaceImage").getValue().toString();
+                        Double latitude = Double.valueOf(dataSnapshot.child("latitude").getValue().toString());
+                        Double longitude = Double.valueOf(dataSnapshot.child("longitude").getValue().toString());
+
+                        Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
                         listWorkspace.add(workspace);
+                        getFormWidget();
                     }
-                }
-                getFormWidget();
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
 
+                    }
+                });
             }
-        });
+        } else {
+            getFormWidget();
+        }
 
         //getFormWidget();
         // Inflate the layout for this fragment

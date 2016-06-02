@@ -9,6 +9,7 @@ public class AppUser {
     private String mUserId;
     private String mUserName;
     private String mEmail;
+    private ArrayList<String> listWorkSpace;
 
 
     public AppUser(String mUserId ,String mUserName, String mEmail) {
@@ -44,4 +45,11 @@ public class AppUser {
         this.mEmail = mEmail;
     }
 
+    public ArrayList<String> getListWorkSpace() {
+        return listWorkSpace;
+    }
+
+    public void setListWorkSpace(ArrayList<String> listWorkSpace) {
+        this.listWorkSpace = listWorkSpace;
+    }
 }

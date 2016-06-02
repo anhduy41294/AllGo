@@ -21,13 +21,17 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.MainActivity;
+
+import java.util.ArrayList;
 
 public class LoginAcitivity extends AppCompatActivity {
 
@@ -41,6 +45,8 @@ public class LoginAcitivity extends AppCompatActivity {
     private TextView signUPTextView;
     private LoginButton loginButtonFacebook;
     private CallbackManager callbackManager;
+    String userEmail, userName;
+    ArrayList<String> listWorkSpace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class LoginAcitivity extends AppCompatActivity {
          */
         Firebase.setAndroidContext(this);
         mFirebaseRef = new Firebase(Constant.FIREBASE_URL);
+        listWorkSpace = new ArrayList<>();
 
 
         /**
@@ -218,11 +225,41 @@ public class LoginAcitivity extends AppCompatActivity {
             Log.i(LOG_TAG, provider + " " + getString(R.string.log_message_auth_successful));
             if (authData != null) {
                 GlobalVariable.currentUserId = authData.getUid();
-                /* Go to main activity */
-                Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+
+                Firebase userRef = new Firebase(Constant.FIREBASE_URL_USERS + "/" +authData.getUid());
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d("manhduy", String.valueOf(dataSnapshot.getChildrenCount()));
+                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                            Log.d("manhduy", snap.getKey());
+                            if (snap.getKey() == "userEmail") {
+                                userEmail = snap.getValue().toString();
+                            } else {
+                                if (snap.getKey() == "userName") {
+                                    userName = snap.getValue().toString();
+                                } else {
+                                    for (DataSnapshot wsnap : snap.getChildren()) {
+                                        Log.d("manhduydl", wsnap.getKey());
+                                        String key = wsnap.getKey();
+                                        listWorkSpace.add(key);
+                                    }
+                                }
+                            }
+                        }
+                        GlobalVariable.CurrentAppUser = new AppUser(GlobalVariable.currentUserId, userName, userEmail);
+                        GlobalVariable.CurrentAppUser.setListWorkSpace(listWorkSpace);
+                        /* Go to main activity */
+                        Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                    }
+                });
             }
         }
 

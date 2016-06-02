@@ -8,11 +8,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.kun.allgo.Global.Constant;
+import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.Room;
+import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.Adapter.RoomAdapter;
 
@@ -28,6 +36,8 @@ public class RoomFragment extends Fragment {
     private RecyclerView recyclerViewRoom;
     private View view;
     private FloatingActionButton fab;
+    public List<Room> listRoom = new ArrayList<>();
+    public List<String> listRoomId = new ArrayList<>();
     public RoomFragment() {
         // Required empty public constructor
     }
@@ -37,19 +47,23 @@ public class RoomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_room, container, false);
+        fab = (FloatingActionButton) view.findViewById(R.id.fabAddRoom);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Rooms");
 
-        getFormWidget();
         addEvent();
+        listRoom.clear();
+        listRoomId.clear();
+        getRoomIdData();
         return view;
     }
+
     private void addEvent() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddRoomFragment addRoomFragment = new AddRoomFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, addRoomFragment)
+                        .replace(R.id.fragment_container, addRoomFragment)
                         .addToBackStack(null)
                         .commit();
             }
@@ -60,18 +74,60 @@ public class RoomFragment extends Fragment {
         recyclerViewRoom = (RecyclerView) view.findViewById(R.id.rcvRoom);
         recyclerViewRoom.setHasFixedSize(true);
         recyclerViewRoom.setLayoutManager(new LinearLayoutManager(getActivity()));
-        roomAdapter = new RoomAdapter(getContext(),getRoomData());
+        roomAdapter = new RoomAdapter(getContext(), listRoom, getActivity().getSupportFragmentManager());
 
         recyclerViewRoom.setAdapter(roomAdapter);
 
-        fab = (FloatingActionButton) view.findViewById(R.id.fabAddRoom);
-
     }
 
-    private List<Room> getRoomData() {
+    private void getRoomIdData() {
 
-        List<Room> room = new ArrayList<Room>();
-        return room;
+        Firebase workSpaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES + "/" + GlobalVariable.currentWorkspaceId);
+        workSpaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap:dataSnapshot.getChildren()) {
+                    if (snap.getKey() == "rooms") {
+                        for (DataSnapshot rsnap : snap.getChildren()) {
+                            //Log.d("manhduydl", wsnap.getKey());
+                            String key = rsnap.getKey();
+                            listRoomId.add(key);
+                        }
+                    }
+                }
+                getRoomData();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    private void getRoomData() {
+        for (String RoomId : listRoomId) {
+            Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + RoomId);
+            workspaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String roomName = dataSnapshot.child("roomName").getValue().toString();
+                    String roomDescription = dataSnapshot.child("roomDescription").getValue().toString();
+                    String roomImage = dataSnapshot.child("roomImage").getValue().toString();
+
+                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+                    //listWorkspace.add(workspace);
+                    Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
+                    listRoom.add(rom);
+                    getFormWidget();
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
     }
 }
 

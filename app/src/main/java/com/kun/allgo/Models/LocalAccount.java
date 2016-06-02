@@ -5,26 +5,27 @@ package com.kun.allgo.Models;
  */
 public class LocalAccount {
 
-    private int mIdLocalAccount;
+    private String mIdLocalAccount;
     private String mUserNameLC;
     private String mPasswordLC;
     private AccountType mAccountType;
+    private String mAccountDescription;
 
-    public LocalAccount(int mIdLocalAccount, String mUserNameLC, String mPasswordLC, AccountType mAccountType) {
+    public LocalAccount(String mIdLocalAccount, String mUserNameLC, String mPasswordLC, String mAccountDescription) {
         this.mIdLocalAccount = mIdLocalAccount;
         this.mUserNameLC = mUserNameLC;
         this.mPasswordLC = mPasswordLC;
-        this.mAccountType = mAccountType;
+        this.mAccountDescription = mAccountDescription;
     }
 
     public LocalAccount() {
     }
 
-    public int getIdLocalAccount() {
+    public String getIdLocalAccount() {
         return mIdLocalAccount;
     }
 
-    public void setIdLocalAccount(int mIdLocalAccount) {
+    public void setIdLocalAccount(String mIdLocalAccount) {
         this.mIdLocalAccount = mIdLocalAccount;
     }
 
@@ -50,5 +51,13 @@ public class LocalAccount {
 
     public void setAccountType(AccountType mAccountType) {
         this.mAccountType = mAccountType;
+    }
+
+    public String getmAccountDescription() {
+        return mAccountDescription;
+    }
+
+    public void setmAccountDescription(String mAccountDescription) {
+        this.mAccountDescription = mAccountDescription;
     }
 }

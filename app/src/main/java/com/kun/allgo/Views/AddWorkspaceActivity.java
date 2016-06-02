@@ -18,21 +18,32 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
+import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.kun.allgo.Services.WorkspaceService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddWorkspaceActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener{
 
@@ -45,6 +56,7 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
     private Button btnGetCurrentLocation;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
 
     //private Workspace workspace = new Workspace();
     private WorkspaceService workspaceService;
@@ -111,14 +123,11 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
             public void onClick(View v) {
                 //Thực hiện save Workspace
                 saveWorkspace();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-
             }
         });
     }
 
-    private boolean saveWorkspace() {
+    private void saveWorkspace() {
 
         String workspaceName = edtWordSpaceName.getText().toString();
         String workspaceDescription = edtWorkspaceDescription.getText().toString();
@@ -126,8 +135,66 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
         Double longitude = Double.valueOf(edtLongitude.getText().toString());
 
         Workspace workspace = new Workspace("", workspaceName, workspaceDescription, "", latitude, longitude);
-        workspaceService.SaveNewWorkspace(workspace);
-        return true;
+        final Firebase newWorkspaceRef = workspaceRef.push();
+
+        Map<String, Object> newWorkspace = new HashMap<String, Object>();
+        newWorkspace.put("workspaceName", workspace.getmWorkspaceName());
+        newWorkspace.put("workspaceDescription", workspace.getmWorkspaceDescription());
+        newWorkspace.put("workspaceImage", workspace.getmImageWorkspace());
+        newWorkspace.put("latitude", workspace.getmLatitude());
+        newWorkspace.put("longitude", workspace.getmLongitude());
+        newWorkspaceRef.setValue(newWorkspace);
+        newWorkspaceRef.child("users").child(GlobalVariable.currentUserId).setValue(true, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+                    Firebase workspaceOfCurrentUserRef = new Firebase(Constant.FIREBASE_URL_USERS + "/" + GlobalVariable.currentUserId).child("workSpaces");
+                    workspaceOfCurrentUserRef.child(newWorkspaceRef.getKey()).setValue(true, new Firebase.CompletionListener() {
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                            updateCurrentAppUser();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void updateCurrentAppUser() {
+        final String[] userEmail = new String[1];
+        final String[] userName = new String[1];
+        final ArrayList<String> listWorkSpace = new ArrayList<>();
+        Firebase userRef = new Firebase(Constant.FIREBASE_URL_USERS + "/" + GlobalVariable.currentUserId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("manhduy", String.valueOf(dataSnapshot.getChildrenCount()));
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    Log.d("manhduy", snap.getKey());
+                    if (snap.getKey() == "userEmail") {
+                        userEmail[0] = snap.getValue().toString();
+                    } else {
+                        if (snap.getKey() == "userName") {
+                            userName[0] = snap.getValue().toString();
+                        } else {
+                            for (DataSnapshot wsnap : snap.getChildren()) {
+                                Log.d("manhduydl", wsnap.getKey());
+                                String key = wsnap.getKey();
+                                listWorkSpace.add(key);
+                            }
+                        }
+                    }
+                }
+                GlobalVariable.CurrentAppUser = new AppUser(GlobalVariable.currentUserId, userName[0], userEmail[0]);
+                GlobalVariable.CurrentAppUser.setListWorkSpace(listWorkSpace);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     @Override

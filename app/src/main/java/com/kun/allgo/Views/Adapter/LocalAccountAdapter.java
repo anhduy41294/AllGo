@@ -40,6 +40,7 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
         LocalAccount current = data.get(position);
         holder.txtLocalAccountName.setText(current.getUserNameLC());
+        holder.txtLocalAccountDescription.setText(current.getmAccountDescription());
     }
 
     @Override
@@ -50,11 +51,12 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtLocalAccountName;
+        TextView txtLocalAccountDescription;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txtLocalAccountName = (TextView) itemView.findViewById(R.id.txtLocalAccountName);
-
+            txtLocalAccountDescription = (TextView) itemView.findViewById(R.id.txtLocalAccountDescription);
         }
     }
 }

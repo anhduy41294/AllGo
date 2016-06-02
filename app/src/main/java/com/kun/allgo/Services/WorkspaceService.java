@@ -30,7 +30,7 @@ public class WorkspaceService {
 
     public boolean SaveNewWorkspace(Workspace workspace){
 
-        Firebase newWorkspaceRef = workspaceRef.push();
+        final Firebase newWorkspaceRef = workspaceRef.push();
 
         Map<String, Object> newWorkspace = new HashMap<String, Object>();
         newWorkspace.put("workspaceName", workspace.getmWorkspaceName());
@@ -39,10 +39,22 @@ public class WorkspaceService {
         newWorkspace.put("latitude", workspace.getmLatitude());
         newWorkspace.put("longitude", workspace.getmLongitude());
         newWorkspaceRef.setValue(newWorkspace);
-        newWorkspaceRef.child("users").child(GlobalVariable.currentUserId).setValue(true);
+        newWorkspaceRef.child("users").child(GlobalVariable.currentUserId).setValue(true, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Firebase workspaceOfCurrentUserRef = new Firebase(Constant.FIREBASE_URL_USERS + "/" + GlobalVariable.currentUserId).child("workSpaces");
+                    workspaceOfCurrentUserRef.child(newWorkspaceRef.getKey()).setValue(true, new Firebase.CompletionListener() {
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
 
-        Firebase workspaceOfCurrentUserRef = new Firebase(Constant.FIREBASE_URL_USERS + "/" + GlobalVariable.currentUserId).child("workSpaces");
-        workspaceOfCurrentUserRef.child(newWorkspaceRef.getKey()).setValue(true);
+                        }
+                    });
+                }
+            }
+        });
+
+
 
         return true;
     }
