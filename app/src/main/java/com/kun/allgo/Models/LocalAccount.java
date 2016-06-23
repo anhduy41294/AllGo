@@ -10,12 +10,23 @@ public class LocalAccount {
     private String mPasswordLC;
     private AccountType mAccountType;
     private String mAccountDescription;
+    private String mIP;
+    private String mPCName;
 
     public LocalAccount(String mIdLocalAccount, String mUserNameLC, String mPasswordLC, String mAccountDescription) {
         this.mIdLocalAccount = mIdLocalAccount;
         this.mUserNameLC = mUserNameLC;
         this.mPasswordLC = mPasswordLC;
         this.mAccountDescription = mAccountDescription;
+    }
+
+    public LocalAccount(String mIdLocalAccount, String mUserNameLC, String mPasswordLC, String mAccountDescription, String mIP, String mPCName) {
+        this.mIdLocalAccount = mIdLocalAccount;
+        this.mUserNameLC = mUserNameLC;
+        this.mPasswordLC = mPasswordLC;
+        this.mAccountDescription = mAccountDescription;
+        this.mIP = mIP;
+        this.mPCName = mPCName;
     }
 
     public LocalAccount() {

@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.MutableData;
+import com.firebase.client.Transaction;
 import com.firebase.client.ValueEventListener;
+import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.LocalAccount;
@@ -79,6 +82,40 @@ public class LocalAccountFragment extends Fragment {
 
         recyclerViewLA.setAdapter(localAccountAdapter);
 
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(recyclerViewLA,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    listLocalAccount.remove(position);
+                                    localAccountAdapter.notifyItemRemoved(position);
+                                    deleteLocalAccount(listLocalAccountId.get(position));
+                                }
+
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    listLocalAccount.remove(position);
+                                    localAccountAdapter.notifyItemRemoved(position);
+                                }
+                                localAccountAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+        recyclerViewLA.addOnItemTouchListener(swipeTouchListener);
     }
 
     private void getLocalAccountIdData() {
@@ -131,5 +168,34 @@ public class LocalAccountFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void deleteLocalAccount(final String localAccountId) {
+        Firebase roomRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId);
+        final Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS + "/" + localAccountId);
+
+        roomRef.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                mutableData.child("localAccounts/" + localAccountId).setValue(null);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                localAccountRef.runTransaction(new Transaction.Handler() {
+                    @Override
+                    public Transaction.Result doTransaction(MutableData mutableData) {
+                        mutableData.setValue(null);
+                        return Transaction.success(mutableData);
+                    }
+
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                        localAccountAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.kun.allgo.Views.Adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.kun.allgo.Models.LocalAccount;
 import com.kun.allgo.Models.Room;
 import com.kun.allgo.R;
+import com.kun.allgo.SocketClient.SocketClient;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +43,14 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
         LocalAccount current = data.get(position);
         holder.txtLocalAccountName.setText(current.getUserNameLC());
         holder.txtLocalAccountDescription.setText(current.getmAccountDescription());
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocketClient myClient = new SocketClient("192.168.1.76", 54015);
+                myClient.execute();
+            }
+        });
     }
 
     @Override
@@ -52,9 +62,11 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
 
         TextView txtLocalAccountName;
         TextView txtLocalAccountDescription;
+        CardView cv;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            cv = (CardView) itemView.findViewById(R.id.card_view);
             txtLocalAccountName = (TextView) itemView.findViewById(R.id.txtLocalAccountName);
             txtLocalAccountDescription = (TextView) itemView.findViewById(R.id.txtLocalAccountDescription);
         }

@@ -3,6 +3,7 @@ package com.kun.allgo.Views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class AddRoomFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_room, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Room");
 
         roomService = new RoomService();
         edtRoomName = (EditText) view.findViewById(R.id.edtRoomName);

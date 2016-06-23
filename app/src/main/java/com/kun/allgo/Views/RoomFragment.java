@@ -17,6 +17,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.Room;
@@ -77,6 +78,40 @@ public class RoomFragment extends Fragment {
         roomAdapter = new RoomAdapter(getContext(), listRoom, getActivity().getSupportFragmentManager());
 
         recyclerViewRoom.setAdapter(roomAdapter);
+
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(recyclerViewRoom,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    listRoom.remove(position);
+                                    roomAdapter.notifyItemRemoved(position);
+                                }
+                                roomAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    listRoom.remove(position);
+                                    roomAdapter.notifyItemRemoved(position);
+                                }
+                                roomAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+        recyclerViewRoom.addOnItemTouchListener(swipeTouchListener);
 
     }
 

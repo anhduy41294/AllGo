@@ -53,9 +53,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <EditText
+        android:id="@+id/edtLCIP"
+        android:background="#ddddde"
+        android:layout_below="@+id/edtLCDescription"
+        android:layout_margin="8dp"
+        android:hint="IP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtLCPCName"
+        android:background="#ddddde"
+        android:layout_below="@+id/edtLCIP"
+        android:layout_margin="8dp"
+        android:hint="PC Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnLCScanQRcode"
+        android:layout_below="@+id/edtLCPCName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Scan QR Code"/>
+
     <Button
         android:id="@+id/btnSubmitLC"
-        android:layout_below="@+id/edtLCDescription"
+        android:layout_below="@+id/btnLCScanQRcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
