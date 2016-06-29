@@ -25,4 +25,9 @@
     <dimen name="lists_row_height">70dp</dimen>
     <dimen name="empty_footer_height">80dp</dimen>
     <dimen name="logo_image_size">100dp</dimen>
+
+    <dimen name="activity_dialog_title_size">9sp</dimen>
+    <dimen name="activity_dialog_content_size">5sp</dimen>
+    <dimen name="activity_dialog_positive_button_size">6sp</dimen>
+    <dimen name="activity_dialog_negative_button_size">6sp</dimen>
 </resources>

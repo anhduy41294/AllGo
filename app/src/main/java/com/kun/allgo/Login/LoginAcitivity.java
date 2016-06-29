@@ -25,6 +25,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.github.orangegangsters.lollipin.lib.managers.AppLock;
+import com.kun.allgo.Authentication.CustomAuthActivity;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.AppUser;
@@ -51,6 +53,13 @@ public class LoginAcitivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(LoginAcitivity.this, CustomAuthActivity.class);
+//        intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+//        startActivityForResult(intent, REQUEST_CODE_ENABLE);
+        intent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+        startActivity(intent);
+
         /**
          * Initialize Facebook
          */
