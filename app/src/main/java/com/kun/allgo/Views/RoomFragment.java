@@ -148,11 +148,11 @@ public class RoomFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String roomName = dataSnapshot.child("roomName").getValue().toString();
                     String roomDescription = dataSnapshot.child("roomDescription").getValue().toString();
-                    String roomImage = dataSnapshot.child("roomImage").getValue().toString();
+                    //String roomImage = dataSnapshot.child("roomImage").getValue().toString();
 
                     //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
                     //listWorkspace.add(workspace);
-                    Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
+                    Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription);
                     listRoom.add(rom);
                     getFormWidget();
                 }

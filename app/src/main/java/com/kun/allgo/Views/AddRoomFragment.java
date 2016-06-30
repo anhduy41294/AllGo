@@ -63,14 +63,15 @@ public class AddRoomFragment extends Fragment {
         String roomName = edtRoomName.getText().toString();
         String roomDescription = edtRoomDescription.getText().toString();
 
-        Room room = new Room("", roomName, roomDescription, "");
+        Room room = new Room("", roomName, roomDescription);
         final Firebase newRoomRef = roomRef.push();
 
         Map<String, Object> newRoom = new HashMap<>();
         newRoom.put("roomName", room.getmRoomName());
         newRoom.put("roomDescription", room.getmRoomDescription());
-        newRoom.put("roomImage", room.getmImageRoom());
+//        newRoom.put("roomImage", room.getmImageRoom());
         newRoomRef.setValue(newRoom);
+
         newRoomRef.child("workspaces").child(GlobalVariable.currentWorkspaceId).setValue(true, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {

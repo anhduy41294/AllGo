@@ -16,6 +16,7 @@ import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.LocalAccountFragment;
 import com.kun.allgo.Views.RoomFragment;
+import com.kun.allgo.Views.WindowsAccountFragment;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,6 +56,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.MyViewHolder> 
                 GlobalVariable.currentRoomId = current.getmIdRoom();
                 Log.d("id", GlobalVariable.currentRoomId);
                 LocalAccountFragment localAccountFragmentFragment = new LocalAccountFragment();
+                WindowsAccountFragment windowsAccountFragment = new WindowsAccountFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, localAccountFragmentFragment)
                         .addToBackStack(null)

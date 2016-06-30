@@ -9,13 +9,11 @@ public class Room {
     private String mIdRoom;
     private String mRoomName;
     private String mRoomDescription;
-    private String mImageRoom;
 
-    public Room(String mIdRoom, String mRoomName, String mRoomDescription, String mImageRoom) {
+    public Room(String mIdRoom, String mRoomName, String mRoomDescription) {
         this.mIdRoom = mIdRoom;
         this.mRoomName = mRoomName;
         this.mRoomDescription = mRoomDescription;
-        this.mImageRoom = mImageRoom;
     }
 
     public Room() {
@@ -43,13 +41,5 @@ public class Room {
 
     public void setmRoomDescription(String mRoomDescription) {
         this.mRoomDescription = mRoomDescription;
-    }
-
-    public String getmImageRoom() {
-        return mImageRoom;
-    }
-
-    public void setmImageRoom(String mImageRoom) {
-        this.mImageRoom = mImageRoom;
     }
 }

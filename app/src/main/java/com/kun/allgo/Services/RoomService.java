@@ -26,7 +26,7 @@ public class RoomService {
         Map<String, Object> newRoom = new HashMap<>();
         newRoom.put("roomName", room.getmRoomName());
         newRoom.put("roomDescription", room.getmRoomDescription());
-        newRoom.put("roomImage", room.getmImageRoom());
+        //newRoom.put("roomImage", room.getmImageRoom());
         newRoomRef.setValue(newRoom);
         newRoomRef.child("workspaces").child(GlobalVariable.currentWorkspaceId).setValue(true);
 

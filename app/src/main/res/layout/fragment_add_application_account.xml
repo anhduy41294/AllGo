@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="55dp"
+    tools:context="com.kun.allgo.Views.AddLocalAccountFragment">
+
+    <ImageView
+        android:id="@+id/imgHeaderAddLC"
+        android:src="@drawable/ic_menu_camera"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtAppUsername"
+        android:background="#ddddde"
+        android:layout_below="@+id/imgHeaderAddLC"
+        android:layout_margin="8dp"
+        android:hint="User Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtAppEmail"
+        android:background="#ddddde"
+        android:layout_below="@+id/edtAppUsername"
+        android:layout_margin="8dp"
+        android:hint="Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtAppPassword"
+        android:background="#ddddde"
+        android:layout_below="@+id/edtAppEmail"
+        android:layout_margin="8dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtAppConfirmPassword"
+        android:background="#ddddde"
+        android:layout_below="@+id/edtAppPassword"
+        android:layout_margin="8dp"
+        android:hint="Confrim Password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtAppDescription"
+        android:background="#ddddde"
+        android:layout_below="@+id/edtAppConfirmPassword"
+        android:layout_margin="8dp"
+        android:hint="Description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spinerAppType"
+        android:layout_below="@+id/edtAppDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </Spinner>
+
+    <Button
+        android:id="@+id/btnAppSubmit"
+        android:layout_below="@+id/spinerAppType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Submit"/>
+
+</RelativeLayout>

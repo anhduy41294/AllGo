@@ -1,201 +1,116 @@
 package com.kun.allgo.Views;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.MutableData;
-import com.firebase.client.Transaction;
-import com.firebase.client.ValueEventListener;
-import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
-import com.kun.allgo.Global.Constant;
-import com.kun.allgo.Global.GlobalVariable;
-import com.kun.allgo.Models.LocalAccount;
-import com.kun.allgo.Models.Room;
 import com.kun.allgo.R;
-import com.kun.allgo.Views.Adapter.LocalAccountAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LocalAccountFragment extends Fragment {
 
-    private LocalAccountAdapter localAccountAdapter;
-    private RecyclerView recyclerViewLA;
     private View view;
     private FloatingActionButton fab;
-    public List<LocalAccount> listLocalAccount = new ArrayList<>();
-    public List<String> listLocalAccountId = new ArrayList<>();
+    FragmentPagerAdapter adapterViewPager;
+    LockableViewPager vpPager;
 
     public LocalAccountFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_local_account, container, false);
-        fab = (FloatingActionButton) view.findViewById(R.id.fabAddLocalAccount);
+        fab = (FloatingActionButton) view.findViewById(R.id.fabAddAccount);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("LocalAccount");
 
         addEvent();
         //getFormWidget();
-        listLocalAccount.clear();
-        listLocalAccountId.clear();
-        getLocalAccountIdData();
+//        listLocalAccount.clear();
+//        listLocalAccountId.clear();
+//        getLocalAccountIdData();
+
+        vpPager = (LockableViewPager) view.findViewById(R.id.vpPager);
+        adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+        vpPager.setSwipeable(false);
+
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(vpPager);
 
         return view;
     }
+
     private void addEvent() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddLocalAccountFragment addLocalAccountFragmentFragment = new AddLocalAccountFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, addLocalAccountFragmentFragment)
-                        .addToBackStack(null)
-                        .commit();
+                if (vpPager.getCurrentItem() == 0) {
+                    AddLocalAccountFragment addLocalAccountFragmentFragment = new AddLocalAccountFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, addLocalAccountFragmentFragment)
+                            .addToBackStack(null)
+                            .commit();
+                } else {
+                    AddApplicationAccountFragment addApplicationAccountFragment = new AddApplicationAccountFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, addApplicationAccountFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
     }
 
-    private void getFormWidget() {
-        recyclerViewLA = (RecyclerView) view.findViewById(R.id.rcvLocalAccount);
-        recyclerViewLA.setHasFixedSize(true);
-        recyclerViewLA.setLayoutManager(new LinearLayoutManager(getActivity()));
-        localAccountAdapter = new LocalAccountAdapter(getContext(), listLocalAccount);
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 2;
 
-        recyclerViewLA.setAdapter(localAccountAdapter);
-
-        SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(recyclerViewLA,
-                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                            @Override
-                            public boolean canSwipeLeft(int position) {
-                                return true;
-                            }
-
-                            @Override
-                            public boolean canSwipeRight(int position) {
-                                return true;
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    listLocalAccount.remove(position);
-                                    localAccountAdapter.notifyItemRemoved(position);
-                                    deleteLocalAccount(listLocalAccountId.get(position));
-                                }
-
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    listLocalAccount.remove(position);
-                                    localAccountAdapter.notifyItemRemoved(position);
-                                }
-                                localAccountAdapter.notifyDataSetChanged();
-                            }
-                        });
-
-        recyclerViewLA.addOnItemTouchListener(swipeTouchListener);
-    }
-
-    private void getLocalAccountIdData() {
-
-        Firebase roomRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId);
-        roomRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snap:dataSnapshot.getChildren()) {
-                    if (snap.getKey() == "localAccounts") {
-                        for (DataSnapshot rsnap : snap.getChildren()) {
-                            //Log.d("manhduydl", wsnap.getKey());
-                            String key = rsnap.getKey();
-                            listLocalAccountId.add(key);
-                        }
-                    }
-                }
-                getLocalAccountData();
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-
-    private void getLocalAccountData() {
-
-        for (String localAccountId : listLocalAccountId) {
-            Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS + "/" + localAccountId);
-            localAccountRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String userName = dataSnapshot.child("userName").getValue().toString();
-                    String password = dataSnapshot.child("password").getValue().toString();
-                    String accountDescription = dataSnapshot.child("accountDescription").getValue().toString();
-
-                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
-                    //listWorkspace.add(workspace);
-                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
-                    LocalAccount localAccount = new LocalAccount(dataSnapshot.getKey(), userName, password, accountDescription);
-                    listLocalAccount.add(localAccount);
-                    getFormWidget();
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
         }
-    }
 
-    private void deleteLocalAccount(final String localAccountId) {
-        Firebase roomRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId);
-        final Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS + "/" + localAccountId);
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
 
-        roomRef.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                mutableData.child("localAccounts/" + localAccountId).setValue(null);
-                return Transaction.success(mutableData);
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return WindowsAccountFragment.newInstance(0, "Windows Account");
+                case 1:
+                    return ApplicationAccountFragment.newInstance(1, "Application Account");
+                default:
+                    return null;
             }
+        }
 
-            @Override
-            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
-                localAccountRef.runTransaction(new Transaction.Handler() {
-                    @Override
-                    public Transaction.Result doTransaction(MutableData mutableData) {
-                        mutableData.setValue(null);
-                        return Transaction.success(mutableData);
-                    }
-
-                    @Override
-                    public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
-                        localAccountAdapter.notifyDataSetChanged();
-                    }
-                });
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Windows Account";
+                case 1:
+                    return "Application Account";
+                default:
+                    return null;
             }
-        });
+        }
+
     }
 }
