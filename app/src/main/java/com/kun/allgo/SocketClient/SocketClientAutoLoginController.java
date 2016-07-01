@@ -44,7 +44,7 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
             OutputStream outputStream = socket.getOutputStream();
 
             PrintStream printStream = new PrintStream(outputStream);
-            printStream.print("[0]" + usernameEncrypted + "|" + passwordEncrypted + "<EOF>");
+            printStream.print("[2]|Skype|" + usernameEncrypted + "|" + passwordEncrypted + "<EOF>");
             outputStream.flush();
             //outputStream.close();
 
