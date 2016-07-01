@@ -13,6 +13,7 @@ import com.kun.allgo.Models.ApplicationAccount;
 import com.kun.allgo.Models.LocalAccount;
 import com.kun.allgo.R;
 import com.kun.allgo.SocketClient.SocketClient;
+import com.kun.allgo.SocketClient.SocketClientAutoLoginController;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,15 +42,15 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        ApplicationAccount current = data.get(position);
+        final ApplicationAccount current = data.get(position);
         holder.txtLocalAccountName.setText(current.getmAppUsername());
         holder.txtLocalAccountDescription.setText(current.getmAppDescription());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                SocketClient myClient = new SocketClient("192.168.1.76", 54015);
-//                myClient.execute();
+                SocketClientAutoLoginController socketClientAutoLoginController = new SocketClientAutoLoginController("192.168.1.46", 11000, current.getmAppUsername(), current.getmAppPassword());
+                socketClientAutoLoginController.execute();
             }
         });
     }

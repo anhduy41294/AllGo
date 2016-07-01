@@ -14,4 +14,6 @@ public class GlobalVariable {
     public static String currentRoomId;
     public static String latitude = "";
     public static String longititude = "";
+    public static String IPCurrentPC = "";
+    public static byte[] keyAutoLoginController;
 }
