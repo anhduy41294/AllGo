@@ -34,6 +34,7 @@ public class ApplicationAccountFragment extends Fragment {
     private ApplicationAccountAdapter applicationAccountAdapter;
     private RecyclerView recyclerViewLA;
     private View view;
+    private int allAccountCode;
     public List<ApplicationAccount> listApplicationAccount = new ArrayList<>();
     public List<String> listApplicationAccountId = new ArrayList<>();
 
@@ -42,13 +43,22 @@ public class ApplicationAccountFragment extends Fragment {
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ApplicationAccountFragment newInstance(int page, String title) {
+    public static ApplicationAccountFragment newInstance(int page, String title, int code) {
         ApplicationAccountFragment applicationAccountFragment = new ApplicationAccountFragment();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
+        args.putInt("code", code);
         applicationAccountFragment.setArguments(args);
         return applicationAccountFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        page = getArguments().getInt("someInt", 0);
+//        title = getArguments().getString("someTitle");
+        allAccountCode = getArguments().getInt("code", 0);
     }
 
     @Override
@@ -60,9 +70,41 @@ public class ApplicationAccountFragment extends Fragment {
         //getFormWidget();
         listApplicationAccount.clear();
         listApplicationAccountId.clear();
-        getApplicationAccountIdData();
+        if (allAccountCode == 0) {
+            getApplicationAccountIdData();
+        } else {
+            getAllAccountData();
+        }
 
         return view;
+    }
+
+    private void getAllAccountData() {
+        Firebase allAppliactionAccountRef = new Firebase(Constant.FIREBASE_URL_APPLICATIONACCOUNTS);
+        allAppliactionAccountRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    String userName = snapshot.child("userName").getValue().toString();
+                    String password = snapshot.child("password").getValue().toString();
+                    String accountDescription = snapshot.child("accountDescription").getValue().toString();
+                    String email = snapshot.child("email").getValue().toString();
+                    String appType = snapshot.child("appType").getValue().toString();
+
+                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+                    //listWorkspace.add(workspace);
+                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
+                    ApplicationAccount applicationAccount = new ApplicationAccount(snapshot.getKey(), userName, password, accountDescription, email, appType);
+                    listApplicationAccount.add(applicationAccount);
+                    getFormWidget();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     private void getFormWidget() {

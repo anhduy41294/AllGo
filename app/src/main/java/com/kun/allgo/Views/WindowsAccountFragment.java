@@ -34,6 +34,7 @@ public class WindowsAccountFragment extends Fragment {
     private LocalAccountAdapter localAccountAdapter;
     private RecyclerView recyclerViewLA;
     private View view;
+    private int allAccountCode;
     public List<LocalAccount> listLocalAccount = new ArrayList<>();
     public List<String> listLocalAccountId = new ArrayList<>();
 
@@ -45,11 +46,12 @@ public class WindowsAccountFragment extends Fragment {
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static WindowsAccountFragment newInstance(int page, String title) {
+    public static WindowsAccountFragment newInstance(int page, String title, int code) {
         WindowsAccountFragment windowsAccountFragment = new WindowsAccountFragment();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
+        args.putInt("code", code);
         windowsAccountFragment.setArguments(args);
         return windowsAccountFragment;
     }
@@ -59,6 +61,7 @@ public class WindowsAccountFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //        page = getArguments().getInt("someInt", 0);
 //        title = getArguments().getString("someTitle");
+        allAccountCode = getArguments().getInt("code", 1);
     }
 
     @Override
@@ -70,7 +73,11 @@ public class WindowsAccountFragment extends Fragment {
         //getFormWidget();
         listLocalAccount.clear();
         listLocalAccountId.clear();
-        getLocalAccountIdData();
+        if (allAccountCode == 0) {
+            getLocalAccountIdData();
+        } else {
+            getAllAccountData();
+        }
 
         return view;
     }
@@ -196,6 +203,32 @@ public class WindowsAccountFragment extends Fragment {
                         localAccountAdapter.notifyDataSetChanged();
                     }
                 });
+            }
+        });
+    }
+
+    private void getAllAccountData() {
+        Firebase allAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS);
+        allAccountRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    String userName = snapshot.child("userName").getValue().toString();
+                    String password = snapshot.child("password").getValue().toString();
+                    String accountDescription = snapshot.child("accountDescription").getValue().toString();
+
+                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+                    //listWorkspace.add(workspace);
+                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
+                    LocalAccount localAccount = new LocalAccount(snapshot.getKey(), userName, password, accountDescription);
+                    listLocalAccount.add(localAccount);
+                    getFormWidget();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
     }

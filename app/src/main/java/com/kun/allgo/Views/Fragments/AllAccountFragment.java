@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.os.Bundle;
@@ -13,29 +13,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kun.allgo.R;
+import com.kun.allgo.Views.ApplicationAccountFragment;
+import com.kun.allgo.Views.LockableViewPager;
+import com.kun.allgo.Views.WindowsAccountFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LocalAccountFragment extends Fragment {
+public class AllAccountFragment extends Fragment {
 
     private View view;
     private FloatingActionButton fab;
     FragmentPagerAdapter adapterViewPager;
     LockableViewPager vpPager;
+    private static final int ALL_ACCOUNT_CODE = 1;
 
-    public LocalAccountFragment() {
+    public AllAccountFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_local_account, container, false);
-        fab = (FloatingActionButton) view.findViewById(R.id.fabAddAccount);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("LocalAccount");
+        view = inflater.inflate(R.layout.fragment_all_account, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Account");
 
-        addEvent();
         //getFormWidget();
 //        listLocalAccount.clear();
 //        listLocalAccountId.clear();
@@ -50,27 +52,6 @@ public class LocalAccountFragment extends Fragment {
         tabLayout.setupWithViewPager(vpPager);
 
         return view;
-    }
-
-    private void addEvent() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (vpPager.getCurrentItem() == 0) {
-                    AddLocalAccountFragment addLocalAccountFragmentFragment = new AddLocalAccountFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, addLocalAccountFragmentFragment)
-                            .addToBackStack(null)
-                            .commit();
-                } else {
-                    AddApplicationAccountFragment addApplicationAccountFragment = new AddApplicationAccountFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, addApplicationAccountFragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            }
-        });
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -91,9 +72,9 @@ public class LocalAccountFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return WindowsAccountFragment.newInstance(0, "Windows Account", 0);
+                    return WindowsAccountFragment.newInstance(0, "Windows Account", ALL_ACCOUNT_CODE);
                 case 1:
-                    return ApplicationAccountFragment.newInstance(1, "Application Account", 0);
+                    return ApplicationAccountFragment.newInstance(1, "Application Account", ALL_ACCOUNT_CODE);
                 default:
                     return null;
             }

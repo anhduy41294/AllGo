@@ -15,6 +15,7 @@ import com.firebase.client.Firebase;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Services.UsersService;
+import com.kun.allgo.Views.Fragments.AllAccountFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -133,7 +134,10 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_share) {
-
+            AllAccountFragment fragment = new AllAccountFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_send) {
 
         }
