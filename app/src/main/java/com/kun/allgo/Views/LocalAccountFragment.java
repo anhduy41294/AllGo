@@ -1,6 +1,8 @@
 package com.kun.allgo.Views;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -9,10 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kun.allgo.R;
+import com.kun.allgo.Utils.QRCodeDataParser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +41,7 @@ public class LocalAccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_local_account, container, false);
         fab = (FloatingActionButton) view.findViewById(R.id.fabAddAccount);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("LocalAccount");
+        setHasOptionsMenu(true);
 
         addEvent();
         //getFormWidget();
@@ -50,6 +58,42 @@ public class LocalAccountFragment extends Fragment {
         tabLayout.setupWithViewPager(vpPager);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.appaccountmenu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_connect) {
+            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+            startActivityForResult(i, 2);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 2) {
+
+            if(resultCode == Activity.RESULT_OK){
+                String result = data.getStringExtra("result");
+                QRCodeDataParser.QRCodeConnectPCParser(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     private void addEvent() {
