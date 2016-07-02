@@ -22,4 +22,10 @@ public class GlobalVariable {
             6, 7, 8, 9, 10, 11, 12, 13,
             14, 110, 111, 112, 113, 114, 115, 116,
             117, 118, 119 };
+    public static String RandomP = "";
+    public static String RandomK = "";
+    public static String HashPServer = "";
+    public static String HashKClient = "";
+    public static String MasterKeyEncryptedServer;
+    public static byte[] MasterKeyServer;
 }
