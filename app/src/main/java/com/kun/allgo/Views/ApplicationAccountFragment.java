@@ -21,6 +21,7 @@ import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.ApplicationAccount;
 import com.kun.allgo.Models.LocalAccount;
 import com.kun.allgo.R;
+import com.kun.allgo.Utils.AuthenticationHelper;
 import com.kun.allgo.Views.Adapter.ApplicationAccountAdapter;
 
 import java.util.ArrayList;
@@ -216,6 +217,11 @@ public class ApplicationAccountFragment extends Fragment {
                     String accountDescription = dataSnapshot.child("accountDescription").getValue().toString();
                     String email = dataSnapshot.child("email").getValue().toString();
                     String appType = dataSnapshot.child("appType").getValue().toString();
+
+                    //decrypt
+                    userName = AuthenticationHelper.DecryptData(userName);
+                    password = AuthenticationHelper.DecryptData(password);
+                    email = AuthenticationHelper.DecryptData(email);
 
                     //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
                     //listWorkspace.add(workspace);

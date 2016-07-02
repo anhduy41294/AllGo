@@ -7,9 +7,9 @@ import com.kun.allgo.Global.GlobalVariable;
  */
 public class QRCodeDataParser {
     public static void QRCodeConnectPCParser(String data){
-        String[] element = data.split("|");
+        String[] element = data.split("[|]");
         GlobalVariable.IPCurrentPC = element[0];
-        GlobalVariable.PortCurrentPC = Integer.getInteger(element[1]);
+        GlobalVariable.PortCurrentPC = Integer.parseInt(element[1]);
         GlobalVariable.keyAutoLoginController = ByteTransformUtils.TransformFromCSharp(element[2]);
 
         GlobalVariable.aesEncryptionAutoLogin.setKey(GlobalVariable.keyAutoLoginController);

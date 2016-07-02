@@ -50,7 +50,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_grey"
                 android:textSize="15.3sp"
-                android:text="manhduydl@gmail.com"/>
+                android:text="duy123456@gmail.com"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

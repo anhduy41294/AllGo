@@ -14,7 +14,7 @@ public class AuthenticationHelper {
         String temp = pass+"|"+ GlobalVariable.RandomP;
 
         String hashPRebuil = MessageDigestHelper.DataHashMD5(temp);
-        if (hashPRebuil == GlobalVariable.HashPServer)
+        if (hashPRebuil.equals(GlobalVariable.HashPServer) )
         {
             return true;
         }
@@ -65,7 +65,8 @@ public class AuthenticationHelper {
 
     public static String EncryptData(String data)
     {
-        byte[] dataToEncrypt  = Base64.decode(data, Base64.URL_SAFE);
+//        byte[] dataToEncrypt  = Base64.decode(data, Base64.URL_SAFE);
+        byte[] dataToEncrypt  = data.getBytes();
 
         AESEncryptionSystem aesEncryptionSystem = new AESEncryptionSystem();
         aesEncryptionSystem.setKey(GlobalVariable.MasterKeyServer);
@@ -81,10 +82,13 @@ public class AuthenticationHelper {
 
         AESEncryptionSystem aesEncryptionSystem = new AESEncryptionSystem();
         aesEncryptionSystem.setKey(GlobalVariable.MasterKeyServer);
-        aesEncryptionSystem.setDataToEncrypt(dataToDecrypt);
+        aesEncryptionSystem.setDataToDecrypt(dataToDecrypt);
         aesEncryptionSystem.Decrypt();
 
-        return Base64.encodeToString(aesEncryptionSystem.getDataOutput(), Base64.URL_SAFE);
+//        String st = Base64.encodeToString(aesEncryptionSystem.getDataOutput(), Base64.URL_SAFE);
+        byte[] b = aesEncryptionSystem.getDataOutput();
+        String st = new String(b);
+        return st;
     }
 
     public static void GenerateMasterKeySystem(String pass)

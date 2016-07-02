@@ -2,17 +2,12 @@ package com.kun.allgo.Services;
 
 import android.util.Log;
 
-import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Models.AppUser;
-import com.kun.allgo.R;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by 12120 on 4/17/2016.
@@ -47,6 +42,10 @@ public class UsersService {
                     newUserRef.child("userName").setValue(appUser.getUserName());
                     newUserRef.child("userEmail").setValue(appUser.getmEmail());
                     newUserRef.child("workSpaces").setValue(null);
+                    newUserRef.child("randomP").setValue(appUser.getRandomP());
+                    newUserRef.child("randomK").setValue(appUser.getRandomK());
+                    newUserRef.child("hashP").setValue(appUser.getHashP());
+                    newUserRef.child("masterEncryptedKey").setValue(appUser.getMasterEncryptedKey());
                 }
             }
 

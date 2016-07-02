@@ -19,9 +19,11 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
 import com.kun.allgo.Global.Constant;
+import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Services.UsersService;
+import com.kun.allgo.Utils.AuthenticationHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,7 +118,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, getString(R.string.log_message_auth_successful));
 //                String uid = (String) result.get("uid");
 //                String email = (String) result.get("email");
-                AppUser newUser = new AppUser(result.get("uid").toString() ,mUserName, mUserEmail);
+                AuthenticationHelper.GenerateMasterKeySystem(mPassword);
+                AppUser newUser = new AppUser(result.get("uid").toString() ,mUserName, mUserEmail, GlobalVariable.RandomP, GlobalVariable.MasterKeyEncryptedServer,
+                        GlobalVariable.RandomK, GlobalVariable.HashPServer);
                 usersService.StoreNewUser(newUser);
 
                 Intent intent = new Intent(getApplicationContext(), LoginAcitivity.class);

@@ -19,6 +19,7 @@ import com.firebase.client.FirebaseError;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.R;
+import com.kun.allgo.Utils.AuthenticationHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +90,11 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
         String email = edtAppEmail.getText().toString();
         String password = edtAppPassword.getText().toString();
         String description = edtAppDescription.getText().toString();
+
+        //encrypt
+        password = AuthenticationHelper.EncryptData(password);
+        email = AuthenticationHelper.EncryptData(email);
+        userName = AuthenticationHelper.EncryptData(userName);
 
         final Firebase newAppAccountRef = applicationAccountRef.push();
 

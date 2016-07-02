@@ -31,6 +31,7 @@ import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
+import com.kun.allgo.Utils.AuthenticationHelper;
 import com.kun.allgo.Views.MainActivity;
 
 import java.util.ArrayList;
@@ -47,8 +48,9 @@ public class LoginAcitivity extends AppCompatActivity {
     private TextView signUPTextView;
     private LoginButton loginButtonFacebook;
     private CallbackManager callbackManager;
-    String userEmail, userName;
+    String userEmail, userName, randomP, randomK, masterEncryptedKey, hashP;
     ArrayList<String> listWorkSpace;
+    String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +161,7 @@ public class LoginAcitivity extends AppCompatActivity {
             return;
         }
         mAuthProgressDialog.show();
+        pass = password;
         mFirebaseRef.authWithPassword(email, password, new MyAuthResultHandler(Constant.PASSWORD_PROVIDER));
     }
 
@@ -240,24 +243,46 @@ public class LoginAcitivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("manhduy", String.valueOf(dataSnapshot.getChildrenCount()));
-                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            Log.d("manhduy", snap.getKey());
-                            if (snap.getKey() == "userEmail") {
-                                userEmail = snap.getValue().toString();
-                            } else {
-                                if (snap.getKey() == "userName") {
-                                    userName = snap.getValue().toString();
-                                } else {
-                                    for (DataSnapshot wsnap : snap.getChildren()) {
-                                        Log.d("manhduydl", wsnap.getKey());
-                                        String key = wsnap.getKey();
-                                        listWorkSpace.add(key);
-                                    }
-                                }
-                            }
+//                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
+//                            Log.d("manhduy", snap.getKey());
+//                            if (snap.getKey() == "userEmail") {
+//                                userEmail = snap.getValue().toString();
+//                            } else {
+//                                if (snap.getKey() == "userName") {
+//                                    userName = snap.getValue().toString();
+//                                } else {
+//                                    for (DataSnapshot wsnap : snap.getChildren()) {
+//                                        Log.d("manhduydl", wsnap.getKey());
+//                                        String key = wsnap.getKey();
+//                                        listWorkSpace.add(key);
+//                                    }
+//                                }
+//                            }
+//                        }
+
+                        userName = dataSnapshot.child("userName").getValue().toString();
+                        userEmail = dataSnapshot.child("userEmail").getValue().toString();
+                        randomP = dataSnapshot.child("randomP").getValue().toString();
+                        randomK = dataSnapshot.child("randomK").getValue().toString();
+                        masterEncryptedKey = dataSnapshot.child("masterEncryptedKey").getValue().toString();
+                        hashP = dataSnapshot.child("hashP").getValue().toString();
+                        for (DataSnapshot snapshot:dataSnapshot.child("workSpaces").getChildren()){
+                            String key = snapshot.getKey();
+                            listWorkSpace.add(key);
                         }
+
+                        //authentication and rebuild key
+                        GlobalVariable.RandomP = randomP;
+                        GlobalVariable.RandomK = randomK;
+                        GlobalVariable.HashPServer = hashP;
+                        GlobalVariable.MasterKeyEncryptedServer = masterEncryptedKey;
+
+                        AuthenticationHelper.ComparehashP(pass);
+                        AuthenticationHelper.DecryptMasterKey(pass);
+
                         GlobalVariable.CurrentAppUser = new AppUser(GlobalVariable.currentUserId, userName, userEmail);
                         GlobalVariable.CurrentAppUser.setListWorkSpace(listWorkSpace);
+
                         /* Go to main activity */
                         Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

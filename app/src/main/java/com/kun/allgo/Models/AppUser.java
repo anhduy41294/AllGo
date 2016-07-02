@@ -10,12 +10,65 @@ public class AppUser {
     private String mUserName;
     private String mEmail;
     private ArrayList<String> listWorkSpace;
+    private String randomP;
+    private String masterEncryptedKey;
+    private String randomK;
+    private String hashP;
 
+    public String getmUserName() {
+        return mUserName;
+    }
 
-    public AppUser(String mUserId ,String mUserName, String mEmail) {
+    public void setmUserName(String mUserName) {
+        this.mUserName = mUserName;
+    }
+
+    public String getRandomP() {
+        return randomP;
+    }
+
+    public void setRandomP(String randomP) {
+        this.randomP = randomP;
+    }
+
+    public String getMasterEncryptedKey() {
+        return masterEncryptedKey;
+    }
+
+    public void setMasterEncryptedKey(String masterEncryptedKey) {
+        this.masterEncryptedKey = masterEncryptedKey;
+    }
+
+    public String getRandomK() {
+        return randomK;
+    }
+
+    public void setRandomK(String randomK) {
+        this.randomK = randomK;
+    }
+
+    public String getHashP() {
+        return hashP;
+    }
+
+    public void setHashP(String hashP) {
+        this.hashP = hashP;
+    }
+
+    public AppUser(String mUserId , String mUserName, String mEmail) {
         this.mUserId = mUserId;
         this.mUserName = mUserName;
         this.mEmail = mEmail;
+    }
+
+    public AppUser(String mUserId, String mUserName, String mEmail, String randomP, String masterEncryptedKey, String randomK, String hashP) {
+        this.mUserId = mUserId;
+        this.mUserName = mUserName;
+        this.mEmail = mEmail;
+        this.randomP = randomP;
+        this.masterEncryptedKey = masterEncryptedKey;
+        this.randomK = randomK;
+        this.hashP = hashP;
     }
 
     public AppUser() {
