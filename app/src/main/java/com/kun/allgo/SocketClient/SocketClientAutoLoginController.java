@@ -19,17 +19,17 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
     int dstPort;
     String response = "";
     String data = "";
-    String usernameEncrypted, passwordEncrypted;
+    String usernameEncrypted, passwordEncrypted, appType, email;
+    int code;
 
-    public SocketClientAutoLoginController(String addr, int port, String username, String password) {
+    public SocketClientAutoLoginController(String addr, int port, String username, String password, String appType, int code, String email) {
         dstAddress = addr;
         dstPort = port;
-        EncryptData(username, password);
-    }
-
-    private void EncryptData(String username, String password) {
-        this.usernameEncrypted = username;
-        this.passwordEncrypted = password;
+        usernameEncrypted = username;
+        passwordEncrypted = password;
+        appType = appType;
+        code = code;
+        email = email;
     }
 
     @Override
@@ -44,7 +44,12 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
             OutputStream outputStream = socket.getOutputStream();
 
             PrintStream printStream = new PrintStream(outputStream);
-            printStream.print("[2]|Skype|" + usernameEncrypted + "|" + passwordEncrypted + "<EOF>");
+            if (appType.equals("Outlook")){
+                printStream.print("["+code+"]|" + appType + "|" + usernameEncrypted + "|" + email + "|" + passwordEncrypted + "<EOF>");
+            } else {
+                printStream.print("["+code+"]|"+appType+"|" + usernameEncrypted + "|" + passwordEncrypted + "<EOF>");
+            }
+
             outputStream.flush();
             //outputStream.close();
 

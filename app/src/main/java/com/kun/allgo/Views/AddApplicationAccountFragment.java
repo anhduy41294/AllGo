@@ -60,7 +60,7 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
         categories.add("Skype");
-        categories.add("Yahoo messenger");
+        categories.add("Yahoo");
         categories.add("Outlook");
 
         // Creating adapter for spinner

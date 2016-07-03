@@ -15,7 +15,7 @@ public class GlobalVariable {
     public static String currentRoomId;
     public static String latitude = "";
     public static String longititude = "";
-    public static String IPCurrentPC = "192.168.1.43";
+    public static String IPCurrentPC = "";
     public static AESEncryptionSystem aesEncryptionAutoLogin = new AESEncryptionSystem();
     public static int PortCurrentPC = 11000;
     public static byte[] keyAutoLoginController =new byte[] { 1, 2, 3, 4, 5,

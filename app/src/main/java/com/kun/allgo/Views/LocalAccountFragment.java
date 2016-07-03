@@ -4,11 +4,14 @@ package com.kun.allgo.Views;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.R;
 import com.kun.allgo.Utils.QRCodeDataParser;
 
@@ -30,6 +34,8 @@ public class LocalAccountFragment extends Fragment {
     private FloatingActionButton fab;
     FragmentPagerAdapter adapterViewPager;
     LockableViewPager vpPager;
+    private CoordinatorLayout coordinatorLayout;
+    private Snackbar snackbar = null;
 
     public LocalAccountFragment() {
         // Required empty public constructor
@@ -40,6 +46,7 @@ public class LocalAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_local_account, container, false);
         fab = (FloatingActionButton) view.findViewById(R.id.fabAddAccount);
+        coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.coordinatorLayout);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("LocalAccount");
         setHasOptionsMenu(true);
 
@@ -56,6 +63,32 @@ public class LocalAccountFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
+
+        vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    if (GlobalVariable.IPCurrentPC.equals("")) {
+                        snackbar = Snackbar.make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE);
+                        snackbar.getView().setBackgroundColor(0xfff44336);
+                        snackbar.show();
+                    }
+                } else {
+                    if (snackbar != null) {
+                        snackbar.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         return view;
     }
