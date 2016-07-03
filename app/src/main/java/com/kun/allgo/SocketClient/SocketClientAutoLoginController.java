@@ -27,9 +27,9 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
         dstPort = port;
         usernameEncrypted = username;
         passwordEncrypted = password;
-        appType = appType;
-        code = code;
-        email = email;
+        this.appType = appType;
+        this.code = code;
+        this.email = email;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
             if (appType.equals("Outlook")){
                 printStream.print("["+code+"]|" + appType + "|" + usernameEncrypted + "|" + email + "|" + passwordEncrypted + "<EOF>");
             } else {
-                printStream.print("["+code+"]|"+appType+"|" + usernameEncrypted + "|" + passwordEncrypted + "<EOF>");
+                printStream.print("["+code+"]|" + appType + "|" + usernameEncrypted + "|" + passwordEncrypted + "<EOF>");
             }
 
             outputStream.flush();

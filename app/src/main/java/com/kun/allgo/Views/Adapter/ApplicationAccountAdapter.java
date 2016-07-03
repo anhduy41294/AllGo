@@ -72,7 +72,7 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
                     //Encryption
                     encryptedUser = EncyptionHelper.EncryptDataAutoLogin(current.getmAppUsername());
                     encryptedPass = EncyptionHelper.EncryptDataAutoLogin(current.getmAppPassword());
-                    encryptedPass = EncyptionHelper.EncryptDataAutoLogin(current.getmAppEmail());
+                    encryptedEmail = EncyptionHelper.EncryptDataAutoLogin(current.getmAppEmail());
 
                     showDialog();
                 }

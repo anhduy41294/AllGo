@@ -67,19 +67,7 @@ public class LocalAccountFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
-                    if (GlobalVariable.IPCurrentPC.equals("")) {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE)
-                                .setAction("Connect", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
-                                        startActivityForResult(i, 2);
-                                    }
-                                });
-                        //snackbar.getView().setBackgroundColor(0xfff44336);
-                        snackbar.show();
-                    }
+                    startSnackbar();
                 } else {
                     if (snackbar != null) {
                         snackbar.dismiss();
@@ -94,6 +82,12 @@ public class LocalAccountFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startSnackbar();
     }
 
 //    @Override
@@ -127,17 +121,7 @@ public class LocalAccountFragment extends Fragment {
                 QRCodeDataParser.QRCodeConnectPCParser(result);
 
                 //
-                snackbar = Snackbar
-                        .make(coordinatorLayout, "Connecting " + GlobalVariable.IPCurrentPC, Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Change", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
-                                startActivityForResult(i, 2);
-                            }
-                        });
-                //snackbar.getView().setBackgroundColor(0xff2195f3);
-                snackbar.show();
+                startSnackbar();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -205,5 +189,33 @@ public class LocalAccountFragment extends Fragment {
             }
         }
 
+    }
+
+    private void startSnackbar() {
+        if (GlobalVariable.IPCurrentPC.equals("")) {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Connect", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+                            startActivityForResult(i, 2);
+                        }
+                    });
+            //snackbar.getView().setBackgroundColor(0xfff44336);
+            snackbar.show();
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Connecting " + GlobalVariable.IPCurrentPC, Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Change", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+                            startActivityForResult(i, 2);
+                        }
+                    });
+            //snackbar.getView().setBackgroundColor(0xff2195f3);
+            snackbar.show();
+        }
     }
 }
