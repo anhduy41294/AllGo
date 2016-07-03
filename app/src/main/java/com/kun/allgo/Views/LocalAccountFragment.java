@@ -48,13 +48,8 @@ public class LocalAccountFragment extends Fragment {
         fab = (FloatingActionButton) view.findViewById(R.id.fabAddAccount);
         coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.coordinatorLayout);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("LocalAccount");
-        setHasOptionsMenu(true);
 
         addEvent();
-        //getFormWidget();
-//        listLocalAccount.clear();
-//        listLocalAccountId.clear();
-//        getLocalAccountIdData();
 
         vpPager = (LockableViewPager) view.findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
@@ -73,8 +68,16 @@ public class LocalAccountFragment extends Fragment {
             public void onPageSelected(int position) {
                 if (position == 1) {
                     if (GlobalVariable.IPCurrentPC.equals("")) {
-                        snackbar = Snackbar.make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE);
-                        snackbar.getView().setBackgroundColor(0xfff44336);
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Connect", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+                                        startActivityForResult(i, 2);
+                                    }
+                                });
+                        //snackbar.getView().setBackgroundColor(0xfff44336);
                         snackbar.show();
                     }
                 } else {
@@ -93,27 +96,27 @@ public class LocalAccountFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.appaccountmenu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.appaccountmenu, menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_connect) {
-            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
-            startActivityForResult(i, 2);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_connect) {
+//            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+//            startActivityForResult(i, 2);
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -122,6 +125,19 @@ public class LocalAccountFragment extends Fragment {
             if(resultCode == Activity.RESULT_OK){
                 String result = data.getStringExtra("result");
                 QRCodeDataParser.QRCodeConnectPCParser(result);
+
+                //
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "Connecting " + GlobalVariable.IPCurrentPC, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Change", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+                                startActivityForResult(i, 2);
+                            }
+                        });
+                //snackbar.getView().setBackgroundColor(0xff2195f3);
+                snackbar.show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
