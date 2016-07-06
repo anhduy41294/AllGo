@@ -69,7 +69,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         }
         //
+        setupMap();
+    }
 
+    private void setupMap() {
         LatLng dest = new LatLng(10.7611612, 106.6816825);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dest, 15));
 
@@ -77,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMyLocationButtonClick() {
 
-                if(checkGPS()){
+                if (checkGPS()) {
 
                 }
                 return false;
@@ -101,6 +104,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // success!
                 Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                mMap.setMyLocationEnabled(true);
+                setupMap();
             } else {
                 // Permission was denied or request was cancelled
             }

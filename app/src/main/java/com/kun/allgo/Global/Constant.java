@@ -17,7 +17,7 @@ public final class Constant {
     public static final String FIREBASE_URL_USERS = "https://allgo.firebaseio.com/appUsers";
     public static final String FIREBASE_URL_WORKSPACES = "https://allgo.firebaseio.com/workSpaces";
     public static final String FIREBASE_URL_ROMS = "https://allgo.firebaseio.com/roms";
-    public static final String FIREBASE_URL_LOCALACCOUNTS = "https://allgo.firebaseio.com/localAccounts";
+    public static final String FIREBASE_URL_WINDOWACCOUNTS = "https://allgo.firebaseio.com/windowAccounts";
     public static final String FIREBASE_URL_APPLICATIONACCOUNTS = "https://allgo.firebaseio.com/applicationAccounts";
 
 }

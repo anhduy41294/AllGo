@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.kun.allgo.Models.LocalAccount;
 import com.kun.allgo.Models.Room;
+import com.kun.allgo.Models.WindowAccount;
 import com.kun.allgo.R;
 import com.kun.allgo.SocketClient.SocketClient;
 
@@ -22,10 +23,10 @@ import java.util.List;
 public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapter.MyViewHolder> {
 
     private LayoutInflater layoutInflater;
-    List<LocalAccount> data = Collections.emptyList();
+    List<WindowAccount> data = Collections.emptyList();
     private Context context;
 
-    public LocalAccountAdapter(Context context, List<LocalAccount> data) {
+    public LocalAccountAdapter(Context context, List<WindowAccount> data) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.data = data;
@@ -40,7 +41,7 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        LocalAccount current = data.get(position);
+        WindowAccount current = data.get(position);
         holder.txtLocalAccountName.setText(current.getUserNameLC());
         holder.txtLocalAccountDescription.setText(current.getmAccountDescription());
 

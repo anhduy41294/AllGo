@@ -12,10 +12,9 @@ public class Workspace {
     private String mImageWorkspace;
     private double mLongitude;
     private double mLatitude;
-    private ArrayList<Room> listRoom;
 
 
-    public Workspace(String mIdWorkspace, String mWorkspaceName, String mWorkspaceDescription, String mImageWorkspace, double mLongitude, double mLatitude) {
+    public Workspace(String mIdWorkspace, String mWorkspaceName, String mWorkspaceDescription, String mImageWorkspace, double mLatitude, double mLongitude) {
         this.mIdWorkspace = mIdWorkspace;
         this.mWorkspaceName = mWorkspaceName;
         this.mWorkspaceDescription = mWorkspaceDescription;

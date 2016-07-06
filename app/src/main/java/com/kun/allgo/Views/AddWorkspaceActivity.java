@@ -31,7 +31,6 @@ import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.AppUser;
@@ -45,21 +44,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddWorkspaceActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener{
+public class AddWorkspaceActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 
     private EditText edtWordSpaceName;
     private EditText edtWorkspaceDescription;
     private EditText edtLongitude;
-    private EditText edtLatitde;
+    private EditText edtLatitude;
     private Button btnFindPlace;
     private Button btnSubmit;
     private Button btnGetCurrentLocation;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     //private Workspace workspace = new Workspace();
     private WorkspaceService workspaceService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,12 +87,12 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
         edtWordSpaceName = (EditText) findViewById(R.id.edtWordSpaceName);
         edtWorkspaceDescription = (EditText) findViewById(R.id.edtWorkspaceDescription);
         edtLongitude = (EditText) findViewById(R.id.edtLongitude);
-        edtLatitde = (EditText) findViewById(R.id.edtLatitde);
+        edtLatitude = (EditText) findViewById(R.id.edtLatitde);
         btnFindPlace = (Button) findViewById(R.id.btnFindPlace);
         btnSubmit = (Button) findViewById(R.id.btnSubmitWorkspace);
         btnGetCurrentLocation = (Button) findViewById(R.id.btnGetCurrentLocation);
 
-        edtLatitde.setText(GlobalVariable.latitude);
+        edtLatitude.setText(GlobalVariable.latitude);
         edtLongitude.setText(GlobalVariable.longititude);
         GlobalVariable.latitude = "";
         GlobalVariable.longititude = "";
@@ -104,7 +105,6 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
             public void onClick(View v) {
                 if (mGoogleApiClient != null) {
                     mGoogleApiClient.connect();
-
                 }
             }
         });
@@ -131,7 +131,7 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
 
         String workspaceName = edtWordSpaceName.getText().toString();
         String workspaceDescription = edtWorkspaceDescription.getText().toString();
-        Double latitude = Double.valueOf(edtLatitde.getText().toString());
+        Double latitude = Double.valueOf(edtLatitude.getText().toString());
         Double longitude = Double.valueOf(edtLongitude.getText().toString());
 
         Workspace workspace = new Workspace("", workspaceName, workspaceDescription, "", latitude, longitude);
@@ -202,23 +202,70 @@ public class AddWorkspaceActivity extends AppCompatActivity implements Connectio
 
         if (checkGPS()) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+//                // Should we show an explanation?
+//                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+//
+//                    // Show an expanation to the user *asynchronously* -- don't block
+//                    // this thread waiting for the user's response! After the user
+//                    // sees the explanation, try again to request the permission.
+//
+//                } else {
+//
+//                    // No explanation needed, we can request the permission.
+//
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+//
+//                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                    // app-defined int constant. The callback method gets the
+//                    // result of the request.
+//                }
+                Toast.makeText(this.getApplicationContext(), "error permision", Toast.LENGTH_LONG).show();
                 return;
             }
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
         if (mLastLocation != null) {
 
-            edtLatitde.setText(String.valueOf(mLastLocation.getLatitude()));
+            edtLatitude.setText(String.valueOf(mLastLocation.getLatitude()));
             edtLongitude.setText(String.valueOf(mLastLocation.getLongitude()));
         }
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case LOCATION_PERMISSION_REQUEST_CODE: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                        // TODO: Consider calling
+//                        //    ActivityCompat#requestPermissions
+//                        // here to request the missing permissions, and then overriding
+//                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                        //                                          int[] grantResults)
+//                        // to handle the case where the user grants the permission. See the documentation
+//                        // for ActivityCompat#requestPermissions for more details.
+//                        return;
+//                    }
+//                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//                    if (mLastLocation != null) {
+//
+//                        edtLatitude.setText(String.valueOf(mLastLocation.getLatitude()));
+//                        edtLongitude.setText(String.valueOf(mLastLocation.getLongitude()));
+//                    }
+//                } else {
+//
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
+//                return;
+//            }
+//
+//            // other 'case' lines to check for other
+//            // permissions this app might request
+//        }
+//    }
+
 
     @Override
     public void onConnectionSuspended(int i) {

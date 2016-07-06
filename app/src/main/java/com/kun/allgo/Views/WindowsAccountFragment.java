@@ -19,7 +19,7 @@ import com.firebase.client.ValueEventListener;
 import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
-import com.kun.allgo.Models.LocalAccount;
+import com.kun.allgo.Models.WindowAccount;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.Adapter.LocalAccountAdapter;
 
@@ -35,8 +35,8 @@ public class WindowsAccountFragment extends Fragment {
     private RecyclerView recyclerViewLA;
     private View view;
     private int allAccountCode;
-    public List<LocalAccount> listLocalAccount = new ArrayList<>();
-    public List<String> listLocalAccountId = new ArrayList<>();
+    public List<WindowAccount> listWindowAccount = new ArrayList<>();
+    public List<String> listWindowAccountId = new ArrayList<>();
 
     private String title;
     private int page;
@@ -71,10 +71,10 @@ public class WindowsAccountFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Local Account");
 
         //getFormWidget();
-        listLocalAccount.clear();
-        listLocalAccountId.clear();
+        listWindowAccount.clear();
+        listWindowAccountId.clear();
         if (allAccountCode == 0) {
-            getLocalAccountIdData();
+            getWindowAccountIdData();
         } else {
             getAllAccountData();
         }
@@ -86,7 +86,7 @@ public class WindowsAccountFragment extends Fragment {
         recyclerViewLA = (RecyclerView) view.findViewById(R.id.rcvLocalAccount);
         recyclerViewLA.setHasFixedSize(true);
         recyclerViewLA.setLayoutManager(new LinearLayoutManager(getActivity()));
-        localAccountAdapter = new LocalAccountAdapter(getContext(), listLocalAccount);
+        localAccountAdapter = new LocalAccountAdapter(getContext(), listWindowAccount);
 
         recyclerViewLA.setAdapter(localAccountAdapter);
 
@@ -106,9 +106,9 @@ public class WindowsAccountFragment extends Fragment {
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    listLocalAccount.remove(position);
+                                    listWindowAccount.remove(position);
                                     localAccountAdapter.notifyItemRemoved(position);
-                                    deleteLocalAccount(listLocalAccountId.get(position));
+                                    deleteWindowAccount(listWindowAccountId.get(position));
                                 }
 
                             }
@@ -116,32 +116,32 @@ public class WindowsAccountFragment extends Fragment {
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    listLocalAccount.remove(position);
+                                    listWindowAccount.remove(position);
                                     localAccountAdapter.notifyItemRemoved(position);
+                                    deleteWindowAccount(listWindowAccountId.get(position));
                                 }
-                                localAccountAdapter.notifyDataSetChanged();
                             }
                         });
 
         recyclerViewLA.addOnItemTouchListener(swipeTouchListener);
     }
 
-    private void getLocalAccountIdData() {
+    private void getWindowAccountIdData() {
 
         Firebase roomRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId);
         roomRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snap:dataSnapshot.getChildren()) {
-                    if (snap.getKey() == "localAccounts") {
+                    if (snap.getKey() == "windowAccounts") {
                         for (DataSnapshot rsnap : snap.getChildren()) {
                             //Log.d("manhduydl", wsnap.getKey());
                             String key = rsnap.getKey();
-                            listLocalAccountId.add(key);
+                            listWindowAccountId.add(key);
                         }
                     }
                 }
-                getLocalAccountData();
+                getWindowAccountData();
             }
 
             @Override
@@ -151,22 +151,23 @@ public class WindowsAccountFragment extends Fragment {
         });
     }
 
-    private void getLocalAccountData() {
+    private void getWindowAccountData() {
 
-        for (String localAccountId : listLocalAccountId) {
-            Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS + "/" + localAccountId);
-            localAccountRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        for (String windowAccountId : listWindowAccountId) {
+            Firebase windowAccountRef = new Firebase(Constant.FIREBASE_URL_WINDOWACCOUNTS + "/" + windowAccountId);
+            windowAccountRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String userName = dataSnapshot.child("userName").getValue().toString();
                     String password = dataSnapshot.child("password").getValue().toString();
+                    String IP = dataSnapshot.child("IP").getValue().toString();
                     String accountDescription = dataSnapshot.child("accountDescription").getValue().toString();
 
                     //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
                     //listWorkspace.add(workspace);
                     //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
-                    LocalAccount localAccount = new LocalAccount(dataSnapshot.getKey(), userName, password, accountDescription);
-                    listLocalAccount.add(localAccount);
+                    WindowAccount windowAccount = new WindowAccount(dataSnapshot.getKey(), userName, password, accountDescription, IP);
+                    listWindowAccount.add(windowAccount);
                     getFormWidget();
                 }
 
@@ -178,20 +179,20 @@ public class WindowsAccountFragment extends Fragment {
         }
     }
 
-    private void deleteLocalAccount(final String localAccountId) {
+    private void deleteWindowAccount(final String windowAccountId) {
         Firebase roomRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId);
-        final Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS + "/" + localAccountId);
+        final Firebase windowAccountRef = new Firebase(Constant.FIREBASE_URL_WINDOWACCOUNTS + "/" + windowAccountId);
 
         roomRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                mutableData.child("localAccounts/" + localAccountId).setValue(null);
+                mutableData.child("windowAccounts/" + windowAccountId).setValue(null);
                 return Transaction.success(mutableData);
             }
 
             @Override
             public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
-                localAccountRef.runTransaction(new Transaction.Handler() {
+                windowAccountRef.runTransaction(new Transaction.Handler() {
                     @Override
                     public Transaction.Result doTransaction(MutableData mutableData) {
                         mutableData.setValue(null);
@@ -208,20 +209,22 @@ public class WindowsAccountFragment extends Fragment {
     }
 
     private void getAllAccountData() {
-        Firebase allAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS);
+        Firebase allAccountRef = new Firebase(Constant.FIREBASE_URL_WINDOWACCOUNTS);
         allAccountRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
                     String userName = snapshot.child("userName").getValue().toString();
                     String password = snapshot.child("password").getValue().toString();
+                    String IP = snapshot.child("IP").getValue().toString();
                     String accountDescription = snapshot.child("accountDescription").getValue().toString();
 
                     //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
                     //listWorkspace.add(workspace);
                     //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
-                    LocalAccount localAccount = new LocalAccount(snapshot.getKey(), userName, password, accountDescription);
-                    listLocalAccount.add(localAccount);
+                    //LocalAccount localAccount = new LocalAccount(snapshot.getKey(), userName, password, accountDescription);
+                    WindowAccount windowAccount = new WindowAccount(snapshot.getKey(), userName, password, accountDescription, IP);
+                    listWindowAccount.add(windowAccount);
                     getFormWidget();
                 }
             }

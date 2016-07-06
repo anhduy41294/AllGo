@@ -23,7 +23,6 @@ public class SocketClient extends AsyncTask<Void, Void, Void> {
     String dstAddress;
     int dstPort;
     String response = "";
-    TextView textResponse;
 
     String nKeySend = "";
     String dKeySend = "";
@@ -42,7 +41,6 @@ public class SocketClient extends AsyncTask<Void, Void, Void> {
     public SocketClient(String addr, int port) {
         dstAddress = addr;
         dstPort = port;
-        //this.textResponse = textResponse;
     }
 
     @Override

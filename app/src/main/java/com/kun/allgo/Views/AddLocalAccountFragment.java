@@ -28,7 +28,7 @@ public class AddLocalAccountFragment extends Fragment {
 
     EditText edtUserName, edtPassword, edtAccountDescription, edtIP, edtPCName;
     Button submitBtn, qrcodeBtn;
-    private Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_LOCALACCOUNTS);
+    private Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_WINDOWACCOUNTS);
 
     public AddLocalAccountFragment() {
         // Required empty public constructor
@@ -87,7 +87,6 @@ public class AddLocalAccountFragment extends Fragment {
         String password = edtPassword.getText().toString();
         String description = edtAccountDescription.getText().toString();
         String IP = edtIP.getText().toString();
-        String PCName = edtPCName.getText().toString();
 
         final Firebase newLocalAccountRef = localAccountRef.push();
 
@@ -96,12 +95,11 @@ public class AddLocalAccountFragment extends Fragment {
         newLocalAccount.put("password", password);
         newLocalAccount.put("accountDescription", description);
         newLocalAccount.put("IP", IP);
-        newLocalAccount.put("PCName", PCName);
         newLocalAccountRef.setValue(newLocalAccount);
         newLocalAccountRef.child("rooms").child(GlobalVariable.currentRoomId).setValue(true, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                Firebase roomOfCurrentAccountRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId).child("localAccounts");
+                Firebase roomOfCurrentAccountRef = new Firebase(Constant.FIREBASE_URL_ROMS + "/" + GlobalVariable.currentRoomId).child("windowAccounts");
                 roomOfCurrentAccountRef.child(newLocalAccountRef.getKey()).setValue(true, new Firebase.CompletionListener() {
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {

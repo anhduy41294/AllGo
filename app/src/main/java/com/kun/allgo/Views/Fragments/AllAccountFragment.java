@@ -39,8 +39,8 @@ public class AllAccountFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Account");
 
         //getFormWidget();
-//        listLocalAccount.clear();
-//        listLocalAccountId.clear();
+//        listWindowAccount.clear();
+//        listWindowAccountId.clear();
 //        getLocalAccountIdData();
 
         vpPager = (LockableViewPager) view.findViewById(R.id.vpPager);
