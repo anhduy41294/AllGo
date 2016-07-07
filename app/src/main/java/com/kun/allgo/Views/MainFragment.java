@@ -46,6 +46,8 @@ import com.kun.allgo.Views.Adapter.WorkspaceAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +61,7 @@ public class MainFragment extends Fragment implements ConnectionCallbacks, OnCon
     public List<Workspace> listWorkspace = new ArrayList<>();
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private static final int ACCESS_FINE_LOCATION_REQUEST_CODE = 3;
 
     public MainFragment() {
         // Required empty public constructor
@@ -71,41 +74,13 @@ public class MainFragment extends Fragment implements ConnectionCallbacks, OnCon
         view = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommend");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Recommend");
         listWorkspace.clear();
 
         // Create an instance of GoogleAPIClient.
         buildGoogleApiClient();
 
-//        Firebase workspaceRef = new Firebase(Constant.FIREBASE_URL_WORKSPACES);
-//        workspaceRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot workspaceSnap: dataSnapshot.getChildren()) {
-//                    if (workspaceSnap.child("users/" + GlobalVariable.currentUserId).getValue() != null){
-//                        String workspaceName = workspaceSnap.child("workspaceName").getValue().toString();
-//                        String workspaceDescription = workspaceSnap.child("workspaceDescription").getValue().toString();
-//                        String workspaceImage = workspaceSnap.child("workspaceImage").getValue().toString();
-//                        Double latitude = Double.valueOf(workspaceSnap.child("latitude").getValue().toString());
-//                        Double longitude = Double.valueOf(workspaceSnap.child("longitude").getValue().toString());
-//
-//                        Workspace workspace = new Workspace(workspaceSnap.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
-//                        listWorkspace.add(workspace);
-//                    }
-//                }
-//                getFormWidget();
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//
-//            }
-//        });
-
         mGoogleApiClient.connect();
-        //getWorkSpaceData();
-        //getFormWidget();
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -153,24 +128,9 @@ public class MainFragment extends Fragment implements ConnectionCallbacks, OnCon
     public void onConnected(@Nullable Bundle bundle) {
 
         if (checkGPS()) {
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                // Should we show an explanation?
-//                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-//
-//                    // Show an expanation to the user *asynchronously* -- don't block
-//                    // this thread waiting for the user's response! After the user
-//                    // sees the explanation, try again to request the permission.
-//
-//                } else {
-//
-//                    // No explanation needed, we can request the permission.
-//
-//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-//
-//                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                    // app-defined int constant. The callback method gets the
-//                    // result of the request.
-//                }
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION_REQUEST_CODE);
                 Toast.makeText(getContext(), "error permision", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -178,6 +138,34 @@ public class MainFragment extends Fragment implements ConnectionCallbacks, OnCon
         }
         if (mLastLocation != null) {
             getWorkSpaceData();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case ACCESS_FINE_LOCATION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                    if (mLastLocation != null) {
+                        getWorkSpaceData();
+                    }
+                } else {
+
+                }
+                return;
+            }
         }
     }
 

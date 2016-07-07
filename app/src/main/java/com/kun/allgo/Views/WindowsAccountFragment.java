@@ -21,6 +21,7 @@ import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.WindowAccount;
 import com.kun.allgo.R;
+import com.kun.allgo.Utils.AuthenticationHelper;
 import com.kun.allgo.Views.Adapter.LocalAccountAdapter;
 
 import java.util.ArrayList;
@@ -163,9 +164,11 @@ public class WindowsAccountFragment extends Fragment {
                     String IP = dataSnapshot.child("IP").getValue().toString();
                     String accountDescription = dataSnapshot.child("accountDescription").getValue().toString();
 
-                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
-                    //listWorkspace.add(workspace);
-                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
+                    //decrypt
+                    userName = AuthenticationHelper.DecryptData(userName);
+                    password = AuthenticationHelper.DecryptData(password);
+                    IP = AuthenticationHelper.DecryptData(IP);
+
                     WindowAccount windowAccount = new WindowAccount(dataSnapshot.getKey(), userName, password, accountDescription, IP);
                     listWindowAccount.add(windowAccount);
                     getFormWidget();

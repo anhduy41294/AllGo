@@ -136,7 +136,6 @@ public class ApplicationAccountFragment extends Fragment {
                                     applicationAccountAdapter.notifyItemRemoved(position);
                                     deleteLocalAccount(listApplicationAccountId.get(position));
                                 }
-
                             }
 
                             @Override
@@ -223,9 +222,6 @@ public class ApplicationAccountFragment extends Fragment {
                     password = AuthenticationHelper.DecryptData(password);
                     email = AuthenticationHelper.DecryptData(email);
 
-                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
-                    //listWorkspace.add(workspace);
-                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
                     ApplicationAccount applicationAccount = new ApplicationAccount(dataSnapshot.getKey(), userName, password, accountDescription, email, appType);
                     listApplicationAccount.add(applicationAccount);
                     getFormWidget();

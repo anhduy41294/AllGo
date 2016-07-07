@@ -14,14 +14,14 @@
 
     <ImageView
         android:id="@+id/imgHeaderAddWs"
-        android:src="@drawable/ic_menu_camera"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/workspace_50"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/edtWordSpaceName"
-        android:background="#ddddde"
         android:layout_below="@+id/imgHeaderAddWs"
         android:layout_margin="8dp"
         android:hint="Workspace Name"
@@ -29,7 +29,6 @@
         android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/edtWorkspaceDescription"
-        android:background="#ddddde"
         android:layout_below="@+id/edtWordSpaceName"
         android:layout_margin="8dp"
         android:inputType="textMultiLine"
@@ -38,7 +37,6 @@
         android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/edtLongitude"
-        android:background="#ddddde"
         android:layout_below="@+id/edtWorkspaceDescription"
         android:layout_margin="8dp"
         android:hint="Longitude"
@@ -48,7 +46,6 @@
 
     <EditText
         android:id="@+id/edtLatitde"
-        android:background="#ddddde"
         android:layout_below="@+id/edtLongitude"
         android:layout_margin="8dp"
         android:hint="Latitude"

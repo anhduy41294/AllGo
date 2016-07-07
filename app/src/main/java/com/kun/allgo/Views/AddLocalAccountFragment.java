@@ -17,6 +17,7 @@ import com.firebase.client.FirebaseError;
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.R;
+import com.kun.allgo.Utils.AuthenticationHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 public class AddLocalAccountFragment extends Fragment {
 
-    EditText edtUserName, edtPassword, edtAccountDescription, edtIP, edtPCName;
+    EditText edtUserName, edtPassword, edtAccountDescription, edtIP;
     Button submitBtn, qrcodeBtn;
     private Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_WINDOWACCOUNTS);
 
@@ -45,7 +46,7 @@ public class AddLocalAccountFragment extends Fragment {
         edtPassword = (EditText) view.findViewById(R.id.edtLCPassword);
         edtAccountDescription = (EditText) view.findViewById(R.id.edtLCDescription);
         edtIP = (EditText) view.findViewById(R.id.edtLCIP);
-        edtPCName = (EditText) view.findViewById(R.id.edtLCPCName);
+        //edtPCName = (EditText) view.findViewById(R.id.edtLCPCName);
         submitBtn = (Button) view.findViewById(R.id.btnSubmitLC);
         qrcodeBtn = (Button) view.findViewById(R.id.btnLCScanQRcode);
 
@@ -88,6 +89,11 @@ public class AddLocalAccountFragment extends Fragment {
         String description = edtAccountDescription.getText().toString();
         String IP = edtIP.getText().toString();
 
+        //encrypt
+        password = AuthenticationHelper.EncryptData(password);
+        userName = AuthenticationHelper.EncryptData(userName);
+        IP = AuthenticationHelper.EncryptData(IP);
+
         final Firebase newLocalAccountRef = localAccountRef.push();
 
         Map<String, Object> newLocalAccount = new HashMap<>();
@@ -103,11 +109,6 @@ public class AddLocalAccountFragment extends Fragment {
                 roomOfCurrentAccountRef.child(newLocalAccountRef.getKey()).setValue(true, new Firebase.CompletionListener() {
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-//                        LocalAccountFragment localAccountFragment = new LocalAccountFragment();
-//                        getActivity().getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.fragment_container, localAccountFragment)
-//                                .addToBackStack(null)
-//                                .commit();
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
                 });

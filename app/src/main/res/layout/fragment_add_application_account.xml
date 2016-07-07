@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/imgHeaderAddLC"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_menu_camera"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -17,7 +18,6 @@
 
     <EditText
         android:id="@+id/edtAppUsername"
-        android:background="#ddddde"
         android:layout_below="@+id/imgHeaderAddLC"
         android:layout_margin="8dp"
         android:hint="User Name"
@@ -26,7 +26,6 @@
 
     <EditText
         android:id="@+id/edtAppEmail"
-        android:background="#ddddde"
         android:layout_below="@+id/edtAppUsername"
         android:layout_margin="8dp"
         android:hint="Email"
@@ -35,7 +34,6 @@
 
     <EditText
         android:id="@+id/edtAppPassword"
-        android:background="#ddddde"
         android:layout_below="@+id/edtAppEmail"
         android:layout_margin="8dp"
         android:hint="Password"
@@ -45,7 +43,6 @@
 
     <EditText
         android:id="@+id/edtAppConfirmPassword"
-        android:background="#ddddde"
         android:layout_below="@+id/edtAppPassword"
         android:layout_margin="8dp"
         android:hint="Confrim Password"
@@ -55,7 +52,6 @@
 
     <EditText
         android:id="@+id/edtAppDescription"
-        android:background="#ddddde"
         android:layout_below="@+id/edtAppConfirmPassword"
         android:layout_margin="8dp"
         android:hint="Description"
@@ -64,6 +60,7 @@
 
     <Spinner
         android:id="@+id/spinerAppType"
+        android:layout_margin="8dp"
         android:layout_below="@+id/edtAppDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -1,5 +1,6 @@
 package com.kun.allgo.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.firebase.client.Firebase;
+import com.kun.allgo.FaceIdentification.PersonGroupActivity;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Services.UsersService;
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PersonGroupActivity.class);
+            startActivity(intent);
             return true;
         }
 

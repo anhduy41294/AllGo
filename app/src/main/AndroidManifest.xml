@@ -8,7 +8,6 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -16,7 +15,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Authentication.CustomApplication"
@@ -66,7 +67,11 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".Views.ScanQRCodeActivity" />
-        <activity android:name=".Authentication.CustomAuthActivity"></activity>
+        <activity android:name=".Authentication.CustomAuthActivity" />
+        <activity android:name=".FaceIdentification.PersonGroupActivity" />
+        <activity android:name=".FaceIdentification.PersonActivity" />
+        <activity android:name=".FaceIdentification.SelectImageActivity" />
+        <activity android:name=".FaceIdentification.AddFaceToPersonActivity"></activity>
     </application>
 
 </manifest>

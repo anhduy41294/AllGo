@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/imgRoom"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_menu_camera"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -17,7 +18,6 @@
 
     <EditText
         android:id="@+id/edtRoomName"
-        android:background="#ddddde"
         android:layout_below="@+id/imgRoom"
         android:layout_margin="8dp"
         android:hint="Room Name"
@@ -25,7 +25,6 @@
         android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/edtRoomDescription"
-        android:background="#ddddde"
         android:layout_below="@+id/edtRoomName"
         android:layout_margin="8dp"
         android:inputType="textMultiLine"

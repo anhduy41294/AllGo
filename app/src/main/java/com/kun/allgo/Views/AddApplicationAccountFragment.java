@@ -1,6 +1,8 @@
 package com.kun.allgo.Views;
 
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import java.util.Map;
 public class AddApplicationAccountFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     EditText edtAppUsername, edtAppPassword, edtAppConfirmPassword, edtAppEmail, edtAppDescription;
+    ImageView imageHeader;
     Button btnAppSubmit;
     Spinner spinerAppType;
     String appType;
@@ -41,7 +45,6 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
         View view = inflater.inflate(R.layout.fragment_add_application_account, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Application Account");
 
+        imageHeader = (ImageView) view.findViewById(R.id.imgHeaderAddLC);
         edtAppUsername = (EditText) view.findViewById(R.id.edtAppUsername);
         edtAppEmail = (EditText) view.findViewById(R.id.edtAppEmail);
         edtAppPassword = (EditText) view.findViewById(R.id.edtAppPassword);
@@ -124,16 +128,27 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
         appType = item;
+        switch (position) {
+            case 0:
+                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.skype_50));
+                break;
+            case 1:
+                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.yahoo_50));
+                break;
+            case 2:
+                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.outlook_50));
+                break;
+        }
         // Showing selected spinner item
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

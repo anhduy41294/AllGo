@@ -13,6 +13,7 @@ import com.kun.allgo.Models.Room;
 import com.kun.allgo.Models.WindowAccount;
 import com.kun.allgo.R;
 import com.kun.allgo.SocketClient.SocketClient;
+import com.kun.allgo.SocketClient.SocketClientWindowLogin;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,15 +42,18 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        WindowAccount current = data.get(position);
+        final WindowAccount current = data.get(position);
         holder.txtLocalAccountName.setText(current.getUserNameLC());
         holder.txtLocalAccountDescription.setText(current.getmAccountDescription());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocketClient myClient = new SocketClient("192.168.1.76", 54015);
-                myClient.execute();
+//                SocketClient myClient = new SocketClient("192.168.1.76", 54015);
+//                myClient.execute();
+
+                SocketClientWindowLogin socketClientWindowLogin = new SocketClientWindowLogin(current.getmIP(), 54015, current.getPasswordLC());
+                socketClientWindowLogin.execute();
             }
         });
     }

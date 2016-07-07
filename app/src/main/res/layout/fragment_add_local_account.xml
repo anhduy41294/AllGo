@@ -10,14 +10,14 @@
 
     <ImageView
         android:id="@+id/imgHeaderAddLC"
-        android:src="@drawable/ic_menu_camera"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/window_50"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/edtLCName"
-        android:background="#ddddde"
         android:layout_below="@+id/imgHeaderAddLC"
         android:layout_margin="8dp"
         android:hint="Local User Name"
@@ -26,7 +26,6 @@
 
     <EditText
         android:id="@+id/edtLCPassword"
-        android:background="#ddddde"
         android:layout_below="@+id/edtLCName"
         android:layout_margin="8dp"
         android:hint="Password"
@@ -36,7 +35,6 @@
 
     <EditText
         android:id="@+id/edtLCConfirmPassword"
-        android:background="#ddddde"
         android:layout_below="@+id/edtLCPassword"
         android:layout_margin="8dp"
         android:hint="Confrim Password"
@@ -46,7 +44,6 @@
 
     <EditText
         android:id="@+id/edtLCDescription"
-        android:background="#ddddde"
         android:layout_below="@+id/edtLCConfirmPassword"
         android:layout_margin="8dp"
         android:hint="Description"
@@ -55,25 +52,24 @@
 
     <EditText
         android:id="@+id/edtLCIP"
-        android:background="#ddddde"
         android:layout_below="@+id/edtLCDescription"
         android:layout_margin="8dp"
         android:hint="IP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
+<!--    <EditText
         android:id="@+id/edtLCPCName"
         android:background="#ddddde"
         android:layout_below="@+id/edtLCIP"
         android:layout_margin="8dp"
         android:hint="PC Name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 
     <Button
         android:id="@+id/btnLCScanQRcode"
-        android:layout_below="@+id/edtLCPCName"
+        android:layout_below="@+id/edtLCIP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

@@ -1,10 +1,12 @@
 package com.kun.allgo.Views.Adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,18 +56,27 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
         return myViewHolder;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final ApplicationAccount current = data.get(position);
         holder.txtLocalAccountName.setText(current.getmAppUsername());
         holder.txtLocalAccountDescription.setText(current.getmAppDescription());
         appType = current.getmAppType();
-
+        if (appType.equals("Skype")) {
+                holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.skype_30));
+        } else {
+            if (appType.equals("Yahoo")) {
+                holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.yahoo_30));
+            } else {
+                if (appType.equals("Outlook")) {
+                    holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.outlook_30));
+                }
+            }
+        }
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (GlobalVariable.IPCurrentPC.equals("")) {
                     showDialogNotConnect();
                 } else {
@@ -76,7 +87,6 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
 
                     showDialog();
                 }
-
             }
         });
     }
