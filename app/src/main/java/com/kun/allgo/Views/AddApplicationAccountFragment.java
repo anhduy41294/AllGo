@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,7 +51,8 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_application_account, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Application Account");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create new Application Account");
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         imageHeader = (ImageView) view.findViewById(R.id.imgHeaderAddLC);
         edtAppUsername = (EditText) view.findViewById(R.id.edtAppUsername);

@@ -255,8 +255,11 @@ public class PersonGroupActivity extends AppCompatActivity {
 
         initializeGridView();
 
-        EditText editTextPersonGroupName = (EditText)findViewById(R.id.edit_person_group_name);
-        editTextPersonGroupName.setText(oldPersonGroupName);
+//        EditText editTextPersonGroupName = (EditText)findViewById(R.id.edit_person_group_name);
+//        editTextPersonGroupName.setText(oldPersonGroupName);
+        Set<String> personIdSet = StorageHelper.getAllPersonIds(personGroupId, PersonGroupActivity.this);
+        TextView textView = (TextView) findViewById(R.id.person_group_name);
+        textView.setText(String.valueOf(personIdSet.size()) + " owner AllGo app");
     }
 
     private void createNewPersonGroup() {
@@ -366,6 +369,10 @@ public class PersonGroupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        Set<String> personIdSet = StorageHelper.getAllPersonIds(personGroupId, PersonGroupActivity.this);
+        TextView textView = (TextView) findViewById(R.id.person_group_name);
+        textView.setText(String.valueOf(personIdSet.size()) + " owner AllGo app");
+
         if (personGroupExists) {
             GridView gridView = (GridView) findViewById(R.id.gridView_persons);
             personGridViewAdapter = new PersonGridViewAdapter();
@@ -402,14 +409,14 @@ public class PersonGroupActivity extends AppCompatActivity {
     }
 
     private void doneAndSave(boolean trainPersonGroup) {
-        EditText editTextPersonGroupName = (EditText)findViewById(R.id.edit_person_group_name);
+        //EditText editTextPersonGroupName = (EditText)findViewById(R.id.edit_person_group_name);
 //        String newPersonGroupName = editTextPersonGroupName.getText().toString();
 //        if (newPersonGroupName.equals("")) {
 //            setInfo("Person group name could not be empty");
 //            return;
 //        }
 
-        editTextPersonGroupName.setText("AllGoGroup");
+        //editTextPersonGroupName.setText("AllGoGroup");
         StorageHelper.setPersonGroupName(personGroupId, "AllGoGroup", PersonGroupActivity.this);
 
         if (trainPersonGroup) {

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -40,7 +41,8 @@ public class AddLocalAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_local_account, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Windows Account");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create new Windows Account");
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         edtUserName = (EditText) view.findViewById(R.id.edtLCName);
         edtPassword = (EditText) view.findViewById(R.id.edtLCPassword);

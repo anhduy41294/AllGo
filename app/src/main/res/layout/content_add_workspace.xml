@@ -53,27 +53,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnGetCurrentLocation"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@+id/edtLatitde"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Current Location"/>
-    <Button
-        android:id="@+id/btnFindPlace"
-        android:layout_below="@+id/btnGetCurrentLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Find Place"/>
+        android:id="@+id/linear2button">
+
+        <Button
+            android:id="@+id/btnGetCurrentLocation"
+            android:layout_below="@+id/edtLatitde"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Current Location"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"/>
+        <Button
+            android:id="@+id/btnFindPlace"
+            android:layout_below="@+id/btnGetCurrentLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Find Place"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnSubmitWorkspace"
-        android:layout_below="@+id/btnFindPlace"
-        android:layout_width="wrap_content"
+        android:layout_below="@+id/linear2button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Submit"/>
+        android:layout_marginTop="5dp"
+        android:text="Submit"
+        style="@style/ButtonStyle"/>
 
 </RelativeLayout>

@@ -192,30 +192,32 @@ public class LocalAccountFragment extends Fragment {
     }
 
     private void startSnackbar() {
-        if (GlobalVariable.IPCurrentPC.equals("")) {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Connect", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
-                            startActivityForResult(i, 2);
-                        }
-                    });
-            //snackbar.getView().setBackgroundColor(0xfff44336);
-            snackbar.show();
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "Connecting " + GlobalVariable.IPCurrentPC, Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Change", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
-                            startActivityForResult(i, 2);
-                        }
-                    });
-            //snackbar.getView().setBackgroundColor(0xff2195f3);
-            snackbar.show();
+        if (vpPager.getCurrentItem() == 1) {
+            if (GlobalVariable.IPCurrentPC.equals("")) {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "Not connect PC", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Connect", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+                                startActivityForResult(i, 2);
+                            }
+                        });
+                //snackbar.getView().setBackgroundColor(0xfff44336);
+                snackbar.show();
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "Connecting " + GlobalVariable.IPCurrentPC, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Change", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(getActivity(), ScanQRCodeActivity.class);
+                                startActivityForResult(i, 2);
+                            }
+                        });
+                //snackbar.getView().setBackgroundColor(0xff2195f3);
+                snackbar.show();
+            }
         }
     }
 }

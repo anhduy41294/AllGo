@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.firebase.client.Firebase;
 import com.kun.allgo.FaceIdentification.PersonGroupActivity;
+import com.kun.allgo.Login.CreateAccountActivity;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Services.UsersService;
@@ -114,10 +115,12 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_signin) {
-            SignUpFragment fragment = new SignUpFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
+//            SignUpFragment fragment = new SignUpFragment();
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fragment_container, fragment);
+//            fragmentTransaction.commit();
+            Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
             WorkspaceFragment fragment = new WorkspaceFragment();

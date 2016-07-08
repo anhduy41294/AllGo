@@ -70,17 +70,20 @@
     <Button
         android:id="@+id/btnLCScanQRcode"
         android:layout_below="@+id/edtLCIP"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Scan QR Code"/>
+        android:text="Scan QR Code"
+        style="@style/ButtonStyle"
+        android:layout_marginBottom="5dp"/>
 
     <Button
         android:id="@+id/btnSubmitLC"
         android:layout_below="@+id/btnLCScanQRcode"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Submit"/>
+        android:text="Submit"
+        style="@style/ButtonStyle"/>
 
 </RelativeLayout>

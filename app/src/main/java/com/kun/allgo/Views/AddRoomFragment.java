@@ -42,7 +42,7 @@ public class AddRoomFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_room, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Room");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create new Room");
 
         roomService = new RoomService();
         edtRoomName = (EditText) view.findViewById(R.id.edtRoomName);

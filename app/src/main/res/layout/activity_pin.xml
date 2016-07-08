@@ -44,7 +44,7 @@
             android:layout_marginBottom="@dimen/pin_code_elements_margin"
             android:layout_marginTop="@dimen/pin_code_round_top_margin" />
 
-        <com.github.omadahealth.typefaceview.TypefaceTextView
+        <!--<com.github.omadahealth.typefaceview.TypefaceTextView
             android:id="@+id/pin_code_forgot_textview1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,13 +54,13 @@
             android:textColor="@color/dark_grey_color"
             android:textSize="@dimen/pin_code_forgot_text_size"
             app:tv_typeface="roboto_regular"
-            tools:text="Create new Pin" />
+            tools:text="Create new Pin" />-->
 
         <com.github.omadahealth.typefaceview.TypefaceTextView
             android:id="@+id/pin_code_forgot_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pin_code_forgot_textview1"
+            android:layout_below="@+id/pin_code_round_view"
             android:layout_centerInParent="true"
             android:singleLine="true"
             android:textColor="@color/dark_grey_color"
@@ -94,7 +94,7 @@
             android:layout_above="@+id/pin_code_fingerprint_textview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_fp_40px" />
+            android:src="@drawable/skype_50" />
 
         <com.github.omadahealth.typefaceview.TypefaceTextView
             android:id="@+id/pin_code_fingerprint_textview"

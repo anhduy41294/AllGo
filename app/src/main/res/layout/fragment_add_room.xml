@@ -36,10 +36,11 @@
     <Button
         android:id="@+id/btnSubmitRoom"
         android:layout_below="@+id/edtRoomDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Submit"/>
+        android:text="Submit"
+        style="@style/ButtonStyle"/>
 
 
 </RelativeLayout>
