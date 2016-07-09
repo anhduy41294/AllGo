@@ -1,5 +1,7 @@
 package com.kun.allgo.Global;
 
+import android.location.Location;
+
 import com.kun.allgo.CryptographySystem.AESEncryptionSystem;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.Models.Workspace;
@@ -28,4 +30,5 @@ public class GlobalVariable {
     public static String HashKClient = "";
     public static String MasterKeyEncryptedServer;
     public static byte[] MasterKeyServer;
+    public static Location currentLocation;
 }

@@ -69,10 +69,14 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".Views.ScanQRCodeActivity" />
         <activity android:name=".Authentication.CustomAuthActivity" />
-        <activity android:name=".FaceIdentification.PersonGroupActivity" />
-        <activity android:name=".FaceIdentification.PersonActivity" />
-        <activity android:name=".FaceIdentification.SelectImageActivity" />
-        <activity android:name=".FaceIdentification.AddFaceToPersonActivity"></activity>
+        <activity android:name=".FaceIdentification.PersonGroupActivity"
+            android:label="Face Setting"/>
+        <activity android:name=".FaceIdentification.PersonActivity"
+            android:label="Face Setting"/>
+        <activity android:name=".FaceIdentification.SelectImageActivity"
+            android:label="Face Setting"/>
+        <activity android:name=".FaceIdentification.AddFaceToPersonActivity"
+            android:label="Face Setting"></activity>
     </application>
 
 </manifest>

@@ -222,10 +222,11 @@ public class WindowsAccountFragment extends Fragment {
                     String IP = snapshot.child("IP").getValue().toString();
                     String accountDescription = snapshot.child("accountDescription").getValue().toString();
 
-                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
-                    //listWorkspace.add(workspace);
-                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
-                    //LocalAccount localAccount = new LocalAccount(snapshot.getKey(), userName, password, accountDescription);
+                    //decrypt
+                    userName = AuthenticationHelper.DecryptData(userName);
+                    password = AuthenticationHelper.DecryptData(password);
+                    IP = AuthenticationHelper.DecryptData(IP);
+
                     WindowAccount windowAccount = new WindowAccount(snapshot.getKey(), userName, password, accountDescription, IP);
                     listWindowAccount.add(windowAccount);
                     getFormWidget();

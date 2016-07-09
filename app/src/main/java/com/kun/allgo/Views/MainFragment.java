@@ -104,10 +104,12 @@ public class MainFragment extends Fragment implements ConnectionCallbacks, OnCon
                         Location currentLocation = new Location("current");
                         currentLocation.setLatitude(mLastLocation.getLatitude());
                         currentLocation.setLongitude(mLastLocation.getLongitude());
+                        GlobalVariable.currentLocation = currentLocation;
 
                         float distance = workspaceLocation.distanceTo(currentLocation);
                         if (distance < 500.0f) {
                             Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
+                            workspace.setmDistance(distance);
                             listWorkspace.add(workspace);
                             getFormWidget();
                         }

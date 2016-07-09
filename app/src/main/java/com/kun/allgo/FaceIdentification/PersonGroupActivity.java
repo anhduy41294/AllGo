@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kun.allgo.Authentication.CustomApplication;
 import com.kun.allgo.R;
@@ -92,7 +93,7 @@ public class PersonGroupActivity extends AppCompatActivity {
                 personGridViewAdapter = new PersonGridViewAdapter();
                 gridView.setAdapter(personGridViewAdapter);
 
-                setInfo("Success. Group " + result + " created");
+                //setInfo("Success. Group " + result + " created");
 
                 if (mAddPerson) {
                     addPerson();
@@ -183,8 +184,9 @@ public class PersonGroupActivity extends AppCompatActivity {
             progressDialog.dismiss();
 
             if (result != null) {
-                setInfo("Person " + result + " successfully deleted");
+                //setInfo("Person successfully deleted");
                 //addLog("Response: Success. Deleting person " + result + " succeed");
+                Toast.makeText(getBaseContext(), "Person successfully deleted", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -197,7 +199,7 @@ public class PersonGroupActivity extends AppCompatActivity {
     private void setUiDuringBackgroundTask(String progress) {
         progressDialog.setMessage(progress);
 
-        setInfo(progress);
+        //setInfo(progress);
     }
 
     public void addPerson(View view) {
@@ -209,7 +211,7 @@ public class PersonGroupActivity extends AppCompatActivity {
     }
 
     private void addPerson() {
-        setInfo("");
+        //setInfo("");
 
         Intent intent = new Intent(this, PersonActivity.class);
         intent.putExtra("AddNewPerson", true);
@@ -255,11 +257,13 @@ public class PersonGroupActivity extends AppCompatActivity {
 
         initializeGridView();
 
-//        EditText editTextPersonGroupName = (EditText)findViewById(R.id.edit_person_group_name);
-//        editTextPersonGroupName.setText(oldPersonGroupName);
-        Set<String> personIdSet = StorageHelper.getAllPersonIds(personGroupId, PersonGroupActivity.this);
         TextView textView = (TextView) findViewById(R.id.person_group_name);
-        textView.setText(String.valueOf(personIdSet.size()) + " owner AllGo app");
+        Set<String> personIdSet = StorageHelper.getAllPersonIds(personGroupId, PersonGroupActivity.this);
+        if (personIdSet.isEmpty()) {
+            textView.setText("Please add a owner app to use Face identification");
+        } else {
+            textView.setText(String.valueOf(personIdSet.size()) + " owner AllGo app");
+        }
     }
 
     private void createNewPersonGroup() {
@@ -443,6 +447,14 @@ public class PersonGroupActivity extends AppCompatActivity {
 
         StorageHelper.deletePersons(personIdsToDelete, personGroupId, this);
 
+        TextView textView = (TextView) findViewById(R.id.person_group_name);
+        Set<String> personIdSet = StorageHelper.getAllPersonIds(personGroupId, PersonGroupActivity.this);
+        if (personIdSet.isEmpty()) {
+            textView.setText("Please add a owner app to use Face identification");
+        } else {
+            textView.setText(String.valueOf(personIdSet.size()) + " owner AllGo app");
+        }
+
         personGridViewAdapter.personIdList = newPersonIdList;
         personGridViewAdapter.personChecked = newPersonChecked;
         personGridViewAdapter.notifyDataSetChanged();
@@ -454,10 +466,10 @@ public class PersonGroupActivity extends AppCompatActivity {
 //    }
 
     // Set the information panel on screen.
-    private void setInfo(String info) {
-        TextView textView = (TextView) findViewById(R.id.info);
-        textView.setText(info);
-    }
+//    private void setInfo(String info) {
+//        TextView textView = (TextView) findViewById(R.id.info);
+//        textView.setText(info);
+//    }
 
     private class PersonGridViewAdapter extends BaseAdapter {
 

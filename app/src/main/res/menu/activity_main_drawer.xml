@@ -8,13 +8,13 @@
             android:title="Recommend" />
 
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_allWorkspace"
             android:icon="@drawable/ic_menu_manage"
             android:title="Workspace" />
         <item
-            android:id="@+id/nav_local"
+            android:id="@+id/nav_allAccount"
             android:icon="@drawable/ic_menu_user"
-            android:title="Local Account" />
+            android:title="All Local Account" />
         <item
             android:id="@+id/nav_signin"
             android:icon="@drawable/ic_menu_signin"

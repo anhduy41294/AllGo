@@ -348,9 +348,10 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
                     {
                         String tam = String.valueOf(ciphertextPasswordLogin[j]);
                         Log.i("=====MAHOA",String.valueOf(ciphertextPasswordLogin[j]));
-                        if (tam.length() < 4)
+                        int iCount = tam.length();
+                        if (iCount < 4)
                         {
-                            for (int k = 0; k <= 4 - tam.length(); k++)
+                            for (int k = 0; k < 4 - iCount; k++)
                             {
                                 tam = "0" + tam;
                             }

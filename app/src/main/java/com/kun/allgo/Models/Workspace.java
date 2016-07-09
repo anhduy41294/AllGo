@@ -12,7 +12,15 @@ public class Workspace {
     private String mImageWorkspace;
     private double mLongitude;
     private double mLatitude;
+    private float mDistance;
 
+    public float getmDistance() {
+        return mDistance;
+    }
+
+    public void setmDistance(float mDistance) {
+        this.mDistance = mDistance;
+    }
 
     public Workspace(String mIdWorkspace, String mWorkspaceName, String mWorkspaceDescription, String mImageWorkspace, double mLatitude, double mLongitude) {
         this.mIdWorkspace = mIdWorkspace;

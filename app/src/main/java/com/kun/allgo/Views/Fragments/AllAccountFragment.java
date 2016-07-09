@@ -38,11 +38,6 @@ public class AllAccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_all_account, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Account");
 
-        //getFormWidget();
-//        listWindowAccount.clear();
-//        listWindowAccountId.clear();
-//        getLocalAccountIdData();
-
         vpPager = (LockableViewPager) view.findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         vpPager.setAdapter(adapterViewPager);

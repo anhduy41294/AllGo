@@ -92,9 +92,11 @@ public class ApplicationAccountFragment extends Fragment {
                     String email = snapshot.child("email").getValue().toString();
                     String appType = snapshot.child("appType").getValue().toString();
 
-                    //Workspace workspace = new Workspace(dataSnapshot.getKey(), workspaceName, workspaceDescription, workspaceImage, latitude, longitude);
-                    //listWorkspace.add(workspace);
-                    //Room rom = new Room(dataSnapshot.getKey(), roomName, roomDescription, roomImage);
+                    //decrypt
+                    userName = AuthenticationHelper.DecryptData(userName);
+                    password = AuthenticationHelper.DecryptData(password);
+                    email = AuthenticationHelper.DecryptData(email);
+
                     ApplicationAccount applicationAccount = new ApplicationAccount(snapshot.getKey(), userName, password, accountDescription, email, appType);
                     listApplicationAccount.add(applicationAccount);
                     getFormWidget();

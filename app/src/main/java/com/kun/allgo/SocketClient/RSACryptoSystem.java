@@ -1,7 +1,7 @@
 package com.kun.allgo.SocketClient;
 
 /**
- * Created by Duy on 05-Jun-16.
+ * Created by Duy on 14-Apr-16.
  */
 public class RSACryptoSystem {
     private long p, q, n, t, flag;
@@ -172,6 +172,10 @@ public class RSACryptoSystem {
 
     public void setMsg(char[] msg) {
         this.msg = msg;
+        for (int id = 0; id < size; id++)
+        {
+            m[id] = msg[id];
+        }
     }
 
     public int getSize() {

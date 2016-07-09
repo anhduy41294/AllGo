@@ -2,6 +2,7 @@ package com.kun.allgo.Views.Adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import com.kun.allgo.R;
 import com.kun.allgo.Views.RoomFragment;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -54,9 +56,20 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
     //@TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(MyViewHolder holder,int position){
+
+        Collections.sort(data, new Comparator<Workspace>() {
+            @Override
+            public int compare(Workspace ws1, Workspace ws2) {
+                return Float.compare(ws1.getmDistance(), ws2.getmDistance());
+            }
+        });
+
         final Workspace workspace = data.get(position);
+        if (workspace.getmDistance() >= 1000.0f)
+            holder.txtDistance.setTextColor(Color.RED);
         holder.txtWorkspaceName.setText(workspace.getmWorkspaceName());
         holder.txtWorkspaceDescription.setText(workspace.getmWorkspaceDescription());
+        holder.txtDistance.setText(formatDistance(workspace.getmDistance()));
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +84,10 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
         });
     }
 
+    private String formatDistance(float distance) {
+        return distance>=1000.0f ? String.format("%.02f", distance/1000.0f) +" km" : String.format("%.02f", distance) +" m";
+    }
+
     @Override
     public int getItemCount(){
         return data.size();
@@ -80,12 +97,14 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.MyVi
 
         TextView txtWorkspaceName;
         TextView txtWorkspaceDescription;
+        TextView txtDistance;
         CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txtWorkspaceName = (TextView) itemView.findViewById(R.id.txtWorkspaceName);
             txtWorkspaceDescription = (TextView) itemView.findViewById(R.id.txtWorkspaceDescription);
+            txtDistance = (TextView) itemView.findViewById(R.id.txtDistance);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
