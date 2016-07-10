@@ -64,13 +64,13 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
         holder.txtLocalAccountDescription.setText(current.getmAppDescription());
         appType = current.getmAppType();
         if (appType.equals("Skype")) {
-                holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.skype_30));
+                holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.skype_500));
         } else {
             if (appType.equals("Yahoo")) {
-                holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.yahoo_30));
+                holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.yahoo_500));
             } else {
                 if (appType.equals("Outlook")) {
-                    holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.outlook_30));
+                    holder.imageViewAccount.setImageDrawable(context.getDrawable(R.drawable.outlook_500));
                 }
             }
         }
@@ -84,6 +84,7 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
                     encryptedUser = EncyptionHelper.EncryptDataAutoLogin(current.getmAppUsername());
                     encryptedPass = EncyptionHelper.EncryptDataAutoLogin(current.getmAppPassword());
                     encryptedEmail = EncyptionHelper.EncryptDataAutoLogin(current.getmAppEmail());
+                    appType = current.getmAppType();
 
                     showDialog();
                 }

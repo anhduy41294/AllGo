@@ -20,7 +20,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/window_30" />
+            android:src="@drawable/windows_500" />
 
         <TextView
             android:id="@+id/txtLocalAccountName"

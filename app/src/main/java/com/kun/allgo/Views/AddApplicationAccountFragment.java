@@ -137,13 +137,13 @@ public class AddApplicationAccountFragment extends Fragment implements AdapterVi
         appType = item;
         switch (position) {
             case 0:
-                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.skype_50));
+                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.skype_500));
                 break;
             case 1:
-                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.yahoo_50));
+                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.yahoo_500));
                 break;
             case 2:
-                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.outlook_50));
+                imageHeader.setImageDrawable(getContext().getDrawable(R.drawable.outlook_500));
                 break;
         }
         // Showing selected spinner item

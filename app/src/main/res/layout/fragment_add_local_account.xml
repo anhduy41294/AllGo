@@ -11,10 +11,10 @@
     <ImageView
         android:id="@+id/imgHeaderAddLC"
         android:layout_marginTop="10dp"
-        android:src="@drawable/window_50"
+        android:src="@drawable/windows_500"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
     <EditText
         android:id="@+id/edtLCName"

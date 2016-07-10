@@ -60,11 +60,6 @@ public class CustomAuthActivity extends AppLockActivity {
         super.onCreate(savedInstanceState);
         //setContentView(getContentView());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mFingerprintImageView = (ImageView) this.findViewById(com.github.orangegangsters.lollipin.lib.R.id.pin_code_fingerprint_imageview);
-            mFingerprintImageView.setImageDrawable(getDrawable(R.drawable.skype_50));
-        }
-
         detected = false;
 
         progressDialog = new ProgressDialog(this);

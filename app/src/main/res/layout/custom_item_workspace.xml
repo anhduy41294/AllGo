@@ -20,7 +20,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/workspace_50" />
+                android:src="@drawable/office" />
 
             <TextView
                 android:id="@+id/txtWorkspaceName"
