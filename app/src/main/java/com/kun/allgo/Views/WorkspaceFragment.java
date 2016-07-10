@@ -1,9 +1,11 @@
 package com.kun.allgo.Views;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -38,6 +40,7 @@ public class WorkspaceFragment extends Fragment {
 
     private FloatingActionButton fab;
     public List<Workspace> listWorkspace = new ArrayList<>();
+    ProgressDialog progressDialog;
 
     public WorkspaceFragment() {
         // Required empty public constructor
@@ -50,6 +53,10 @@ public class WorkspaceFragment extends Fragment {
 
         fab = (FloatingActionButton) view.findViewById(R.id.fabAddWorkspace);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Workspaces");
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please wait");
+        progressDialog.show();
 
         listWorkspace.clear();
         addEvent();
@@ -85,6 +92,13 @@ public class WorkspaceFragment extends Fragment {
                 }
             });
         }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 1000);
         // Inflate the layout for this fragment
         return view;
     }

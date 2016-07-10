@@ -30,23 +30,6 @@ public class MainActivity extends AppCompatActivity
 
         //Set up Firebase
         Firebase.setAndroidContext(this);
-        /*Firebase rootRef = new Firebase("https://allgo.firebaseio.com/android/saving-data/fireblog");
-
-        //Fake and save user
-        Firebase userref = rootRef.child("appusers").child("user1");
-        AppUser appUser = new AppUser();
-        appUser.setUserName("anhduy");
-        appUser.setFullName("Tran Anh Duy");
-        appUser.setPassword("123456");
-
-        userref.setValue(appUser);*/
-//
-//        UsersService usersService = new UsersService();
-//
-//        AppUser appUser = new AppUser();
-//        usersService.StoreNewUser(appUser);
-
-
 
         setContentView(R.layout.activity_main);
 
@@ -140,5 +123,10 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

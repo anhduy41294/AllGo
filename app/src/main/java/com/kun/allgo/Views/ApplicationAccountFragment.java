@@ -1,7 +1,9 @@
 package com.kun.allgo.Views;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,7 @@ public class ApplicationAccountFragment extends Fragment {
     private int allAccountCode;
     public List<ApplicationAccount> listApplicationAccount = new ArrayList<>();
     public List<String> listApplicationAccountId = new ArrayList<>();
+    ProgressDialog progressDialog;
 
     public ApplicationAccountFragment() {
         // Required empty public constructor
@@ -59,6 +62,8 @@ public class ApplicationAccountFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //        page = getArguments().getInt("someInt", 0);
 //        title = getArguments().getString("someTitle");
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please wait");
         allAccountCode = getArguments().getInt("code", 0);
     }
 
@@ -69,6 +74,7 @@ public class ApplicationAccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_application_account, container, false);
 
         //getFormWidget();
+        progressDialog.show();
         listApplicationAccount.clear();
         listApplicationAccountId.clear();
         if (allAccountCode == 0) {
@@ -101,6 +107,7 @@ public class ApplicationAccountFragment extends Fragment {
                     listApplicationAccount.add(applicationAccount);
                     getFormWidget();
                 }
+                progressDialog.dismiss();
             }
 
             @Override
@@ -235,5 +242,13 @@ public class ApplicationAccountFragment extends Fragment {
                 }
             });
         }
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 1000);
     }
 }

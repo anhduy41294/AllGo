@@ -26,13 +26,13 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddLocalAccountFragment extends Fragment {
+public class AddWindowsAccountFragment extends Fragment {
 
     EditText edtUserName, edtPassword, edtAccountDescription, edtIP;
     Button submitBtn, qrcodeBtn;
     private Firebase localAccountRef = new Firebase(Constant.FIREBASE_URL_WINDOWACCOUNTS);
 
-    public AddLocalAccountFragment() {
+    public AddWindowsAccountFragment() {
         // Required empty public constructor
     }
 
@@ -40,7 +40,7 @@ public class AddLocalAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_local_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_windows_account, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create new Windows Account");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 

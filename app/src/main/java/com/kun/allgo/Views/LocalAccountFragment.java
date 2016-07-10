@@ -14,12 +14,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.R;
@@ -134,9 +130,9 @@ public class LocalAccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (vpPager.getCurrentItem() == 0) {
-                    AddLocalAccountFragment addLocalAccountFragmentFragment = new AddLocalAccountFragment();
+                    AddWindowsAccountFragment addWindowsAccountFragmentFragment = new AddWindowsAccountFragment();
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, addLocalAccountFragmentFragment)
+                            .replace(R.id.fragment_container, addWindowsAccountFragmentFragment)
                             .addToBackStack(null)
                             .commit();
                 } else {

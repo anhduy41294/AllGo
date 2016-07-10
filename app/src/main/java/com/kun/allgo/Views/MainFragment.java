@@ -57,15 +57,14 @@ public class MainFragment extends Fragment implements ConnectionCallbacks, OnCon
     private WorkspaceAdapter workspaceAdapter;
     private RecyclerView recyclerViewWorkspace;
     private View view;
-    private WorkspaceService workspaceService;
     public List<Workspace> listWorkspace = new ArrayList<>();
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private static final int ACCESS_FINE_LOCATION_REQUEST_CODE = 3;
 
-    public MainFragment() {
-        // Required empty public constructor
-    }
+//    public MainFragment() {
+//        // Required empty public constructor
+//    }
 
 
     @Override

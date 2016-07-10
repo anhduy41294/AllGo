@@ -1,8 +1,10 @@
 package com.kun.allgo.Views;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +41,8 @@ public class RoomFragment extends Fragment {
     private FloatingActionButton fab;
     public List<Room> listRoom = new ArrayList<>();
     public List<String> listRoomId = new ArrayList<>();
+    ProgressDialog progressDialog;
+
     public RoomFragment() {
         // Required empty public constructor
     }
@@ -50,6 +54,10 @@ public class RoomFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_room, container, false);
         fab = (FloatingActionButton) view.findViewById(R.id.fabAddRoom);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Rooms");
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please wait");
+        progressDialog.show();
 
         addEvent();
         listRoom.clear();
@@ -163,6 +171,13 @@ public class RoomFragment extends Fragment {
                 }
             });
         }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 1000);
     }
 }
 

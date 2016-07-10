@@ -21,7 +21,7 @@ public class CustomApplication extends Application {
 
         LockManager<CustomAuthActivity> lockManager = LockManager.getInstance();
         lockManager.enableAppLock(this, CustomAuthActivity.class);
-        lockManager.getAppLock().setLogoId(R.drawable.security_lock);
+        lockManager.getAppLock().setLogoId(R.mipmap.icon);
     }
 
     public static FaceServiceClient getFaceServiceClient() {

@@ -1,7 +1,10 @@
 package com.kun.allgo.Views;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +41,7 @@ public class WindowsAccountFragment extends Fragment {
     private int allAccountCode;
     public List<WindowAccount> listWindowAccount = new ArrayList<>();
     public List<String> listWindowAccountId = new ArrayList<>();
+    ProgressDialog progressDialog;
 
     private String title;
     private int page;
@@ -62,6 +66,9 @@ public class WindowsAccountFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //        page = getArguments().getInt("someInt", 0);
 //        title = getArguments().getString("someTitle");
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please wait");
+
         allAccountCode = getArguments().getInt("code", 1);
     }
 
@@ -72,6 +79,7 @@ public class WindowsAccountFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Local Account");
 
         //getFormWidget();
+        progressDialog.show();
         listWindowAccount.clear();
         listWindowAccountId.clear();
         if (allAccountCode == 0) {
@@ -173,13 +181,18 @@ public class WindowsAccountFragment extends Fragment {
                     listWindowAccount.add(windowAccount);
                     getFormWidget();
                 }
-
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {
-
                 }
             });
         }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 1000);
     }
 
     private void deleteWindowAccount(final String windowAccountId) {
@@ -231,6 +244,7 @@ public class WindowsAccountFragment extends Fragment {
                     listWindowAccount.add(windowAccount);
                     getFormWidget();
                 }
+                progressDialog.dismiss();
             }
 
             @Override
@@ -238,5 +252,6 @@ public class WindowsAccountFragment extends Fragment {
 
             }
         });
+
     }
 }
