@@ -1,5 +1,7 @@
 package com.kun.allgo.SocketClient;
 
+import android.util.Log;
+
 /**
  * Created by Duy on 14-Apr-16.
  */
@@ -106,6 +108,7 @@ public class RSACryptoSystem {
             pt = k + 96;
             m[i] = pt;
             i++;
+           // Log.d("m",String.valueOf(m[i]));
         }
         m[i] = -1;
     }

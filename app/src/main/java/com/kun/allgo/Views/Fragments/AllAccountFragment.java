@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kun.allgo.R;
-import com.kun.allgo.Views.ApplicationAccountFragment;
 import com.kun.allgo.Views.LockableViewPager;
-import com.kun.allgo.Views.WindowsAccountFragment;
 
 /**
  * A simple {@link Fragment} subclass.

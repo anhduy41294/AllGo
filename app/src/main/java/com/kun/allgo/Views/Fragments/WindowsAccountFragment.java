@@ -1,10 +1,9 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;

@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="55dp"
-    tools:context="com.kun.allgo.Views.AddRoomFragment">
+    tools:context=".Views.Fragments.AddRoomFragment">
 
     <ImageView
         android:id="@+id/imgRoom"

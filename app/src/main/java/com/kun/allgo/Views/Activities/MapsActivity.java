@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Activities;
 
 import android.Manifest;
 import android.app.Dialog;

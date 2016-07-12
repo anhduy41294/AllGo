@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.Room;
-import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
-import com.kun.allgo.Views.LocalAccountFragment;
-import com.kun.allgo.Views.RoomFragment;
-import com.kun.allgo.Views.WindowsAccountFragment;
+import com.kun.allgo.Views.Fragments.LocalAccountFragment;
+import com.kun.allgo.Views.Fragments.WindowsAccountFragment;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.os.Bundle;
@@ -79,11 +79,6 @@ public class AddRoomFragment extends Fragment {
                 workspaceOfCurrentRoomRef.child(newRoomRef.getKey()).setValue(true, new Firebase.CompletionListener() {
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-//                        RoomFragment roomFragment = new RoomFragment();
-//                        getActivity().getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.fragment_container, roomFragment)
-//                                .addToBackStack(null)
-//                                .commit();
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
                 });

@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.app.Activity;
@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.R;
 import com.kun.allgo.Utils.QRCodeDataParser;
+import com.kun.allgo.Views.LockableViewPager;
+import com.kun.allgo.Views.Activities.ScanQRCodeActivity;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.app.ProgressDialog;
@@ -7,7 +7,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +24,7 @@ import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.Workspace;
 import com.kun.allgo.R;
 import com.kun.allgo.Views.Adapter.WorkspaceAdapter;
+import com.kun.allgo.Views.Activities.AddWorkspaceActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".Views.SignUpFragment">
+    tools:context=".Views.Fragments.SignUpFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView

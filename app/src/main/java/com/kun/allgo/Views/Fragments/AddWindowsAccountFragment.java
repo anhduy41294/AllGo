@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.app.Activity;
@@ -19,6 +19,7 @@ import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.R;
 import com.kun.allgo.Utils.AuthenticationHelper;
+import com.kun.allgo.Views.Activities.ScanQRCodeActivity;
 
 import java.util.HashMap;
 import java.util.Map;

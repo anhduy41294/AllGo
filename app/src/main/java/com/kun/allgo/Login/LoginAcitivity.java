@@ -32,7 +32,7 @@ import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.AppUser;
 import com.kun.allgo.R;
 import com.kun.allgo.Utils.AuthenticationHelper;
-import com.kun.allgo.Views.MainActivity;
+import com.kun.allgo.Views.Activities.MainActivity;
 
 import java.util.ArrayList;
 
@@ -169,7 +169,7 @@ public class LoginAcitivity extends AppCompatActivity {
         mEditTextEmailInput = (EditText) findViewById(R.id.edit_text_email);
         mEditTextPasswordInput = (EditText) findViewById(R.id.edit_text_password);
         signInPasswordBtn = (Button) findViewById(R.id.login_with_password);
-        goMainBtn = (Button) findViewById(R.id.goMainBtn);
+        //goMainBtn = (Button) findViewById(R.id.goMainBtn);
         signUPTextView = (TextView) findViewById(R.id.tv_sign_up);
         loginButtonFacebook = (LoginButton) findViewById(R.id.login_button_facebook);
 
@@ -194,14 +194,14 @@ public class LoginAcitivity extends AppCompatActivity {
             }
         });
 
-        goMainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
+//        goMainBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//            }
+//        });
 
         signUPTextView.setOnClickListener(new View.OnClickListener() {
             @Override

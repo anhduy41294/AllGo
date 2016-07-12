@@ -85,7 +85,6 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
         rsaMobile.setQ(keyQMobile);
         rsaMobile.genkey();
 
-
         Log.d("keyPMobile", String.valueOf(keyPMobile));
         Log.d("keyQMobile", String.valueOf(keyQMobile));
         /**
@@ -98,48 +97,6 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
         Log.d("keyEMobile", String.valueOf(rsaMobile.getE()[0]));
         Log.d("encryptedPKM", encryptedPublicKeyMobile);
         //Gửi encryptedPublicKeyMobile
-
-
-
-        /*
-        RSACryptoSystem rsa = new RSACryptoSystem();
-        //se bo sung code random sau***
-        rsa.setSize(6);
-        rsa.setQ(13);
-        rsa.setP(29);
-        char[] text = new char[100];
-        text[0]='1';
-        text[1]='2';
-        text[2]='3';
-        text[3]='4';
-        text[4]='5';
-        text[5]='6';
-        rsa.setMsg(text);
-        rsa.genkey();
-        rsa.encrypt();
-
-        long[] ciphertext = new long[100];
-        ciphertext = rsa.getEn();
-
-        nKeySend = String.valueOf(rsa.getN());
-        dKeySend = String.valueOf(rsa.getD()[0]);
-
-        for (int j = 0; ciphertext[j] != -1; j++)
-        {
-            String tam = String.valueOf(ciphertext[j]);
-            Log.i("=====MAHOA",String.valueOf(ciphertext[j]));
-            if (tam.length() < 4)
-            {
-                for (int k = 0; k <= 4 - tam.length(); k++)
-                {
-                    tam = "0" + tam;
-                }
-            }
-            passSend += tam;
-        }
-        Log.i("=====MAHOA", passSend);
-*/
-        ///////
 
         try {
             socket = new Socket(dstAddress, dstPort);
@@ -263,15 +220,6 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
                     messageSender.execute();
                 }
             } else {
-//                if(message.equals(nKeySend)) {
-//                    final Sender messageSender = new Sender(); // Initialize chat sender AsyncTask.
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//                        messageSender.messageSend = passSend;
-//                        messageSender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//                    } else {
-//                        messageSender.execute();
-//                    }
-//                }
                 if (message.equals(passSend)) {
                     try {
                         socket.close();
@@ -316,6 +264,7 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
                     plaintextPublicKeyPC = rsaMobile.getM();
                     for (int i = 0; i < size; i++)
                     {
+                        Log.d("plaintextPublicKeyPC", String.valueOf(plaintextPublicKeyPC[i]));
                         publicKeyPC += (char)plaintextPublicKeyPC[i];
                     }
                     Log.d("publicKeyPC", publicKeyPC);

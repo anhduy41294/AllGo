@@ -1,4 +1,4 @@
-package com.kun.allgo.Views;
+package com.kun.allgo.Views.Fragments;
 
 
 import android.app.ProgressDialog;
@@ -21,7 +21,6 @@ import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListen
 import com.kun.allgo.Global.Constant;
 import com.kun.allgo.Global.GlobalVariable;
 import com.kun.allgo.Models.ApplicationAccount;
-import com.kun.allgo.Models.LocalAccount;
 import com.kun.allgo.R;
 import com.kun.allgo.Utils.AuthenticationHelper;
 import com.kun.allgo.Views.Adapter.ApplicationAccountAdapter;

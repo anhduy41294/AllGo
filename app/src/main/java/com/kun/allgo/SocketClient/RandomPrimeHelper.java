@@ -9,10 +9,10 @@ public class RandomPrimeHelper {
     public static int RandomPrime() {
         int num = 0;
         Random rand = new Random(); // generate a random number
-        num = rand.nextInt(50) + 1;
+        num = rand.nextInt(20) + 1;
 
-        while (!isPrime(num)) {
-            num = rand.nextInt(50) + 1;
+        while (!isPrime(num) || num <= 10) {
+            num = rand.nextInt(20) + 1;
         }
         return num;
     }

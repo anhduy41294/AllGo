@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="55dp"
-    tools:context=".Views.AddWindowsAccountFragment">
+    tools:context=".Views.Fragments.AddWindowsAccountFragment">
 
     <ImageView
         android:id="@+id/imgHeaderAddLC"
