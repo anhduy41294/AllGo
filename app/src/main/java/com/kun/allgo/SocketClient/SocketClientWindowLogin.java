@@ -1,9 +1,12 @@
 package com.kun.allgo.SocketClient;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kun.allgo.Utils.RandomHelper;
 
@@ -30,6 +33,8 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
     String preShareKey ="";
     String passwordLoginWindows = "";
 
+    ProgressDialog progressDialog;
+
     Socket socket;
     ByteArrayOutputStream byteArrayOutputStream;
     byte[] buffer = new byte[1024];
@@ -51,13 +56,33 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
     String encryptedPublicKeyPC; // nhận từ PC
     long keyN_PC;
     long keyE_PC;
+    Context context;
 
     RSACryptoSystem rsaMobile;
 
-    public SocketClientWindowLogin(String addr, int port, String passwordLoginWindows) {
+    public SocketClientWindowLogin(String addr, int port, String passwordLoginWindows, Context context, ProgressDialog p) {
         dstAddress = addr;
         dstPort = port;
+        this.context = context;
         this.passwordLoginWindows = passwordLoginWindows;
+        this.progressDialog = p;
+    }
+
+    @Override
+    protected void onCancelled() {
+
+        this.progressDialog.dismiss();
+        Toast.makeText(this.context, "Connection Refuse", Toast.LENGTH_SHORT).show();
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        super.onCancelled();
     }
 
     @Override
@@ -100,6 +125,7 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
 
         try {
             socket = new Socket(dstAddress, dstPort);
+            //socket.setSoTimeout(5000);
             /////
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataOutputStream dos = new DataOutputStream(baos);
@@ -124,10 +150,12 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
             // TODO Auto-generated catch block
             e.printStackTrace();
             response = "UnknownHostException: " + e.toString();
+            cancel(true);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             response = "IOException: " + e.toString();
+            cancel(true);
         }
 //        finally {
 //            if (socket != null) {
@@ -212,6 +240,7 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
             //textView.append("Server: " + message + "\n");
 
             if(message.equals(preShareKey)) {
+                progressDialog.setTitle("Transfer data...");
                 final Sender messageSender = new Sender(); // Initialize chat sender AsyncTask.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     messageSender.messageSend = publicKeyMobile;
@@ -221,6 +250,8 @@ public class SocketClientWindowLogin extends AsyncTask<Void, Void, Void> {
                 }
             } else {
                 if (message.equals(passSend)) {
+                    progressDialog.dismiss();
+                    Toast.makeText(context, "Transfer data completed", Toast.LENGTH_SHORT).show();
                     try {
                         socket.close();
                     } catch (IOException e) {

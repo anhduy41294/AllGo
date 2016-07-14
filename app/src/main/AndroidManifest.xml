@@ -74,7 +74,7 @@
         <activity android:name=".FaceIdentification.PersonActivity"
             android:label="Face Setting"/>
         <activity android:name=".FaceIdentification.SelectImageActivity"
-            android:label="Face Setting"/>
+            android:label="Select Image"/>
         <activity android:name=".FaceIdentification.AddFaceToPersonActivity"
             android:label="Face Setting"></activity>
     </application>

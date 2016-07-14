@@ -1,7 +1,10 @@
 package com.kun.allgo.SocketClient;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,8 +24,12 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
     String data = "";
     String usernameEncrypted, passwordEncrypted, appType, email;
     int code;
+    Context context;
+    ProgressDialog progressDialog;
+    Socket socket;
 
-    public SocketClientAutoLoginController(String addr, int port, String username, String password, String appType, int code, String email) {
+    public SocketClientAutoLoginController(String addr, int port, String username,
+                                           String password, String appType, int code, String email, Context context, ProgressDialog p) {
         dstAddress = addr;
         dstPort = port;
         usernameEncrypted = username;
@@ -30,12 +37,29 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
         this.appType = appType;
         this.code = code;
         this.email = email;
+        this.context = context;
+        this.progressDialog = p;
+    }
+
+    @Override
+    protected void onCancelled() {
+        this.progressDialog.dismiss();
+        Toast.makeText(this.context, "Connection Refuse", Toast.LENGTH_SHORT).show();
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        super.onCancelled();
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
 
-        Socket socket = null;
+        socket = null;
 
         try {
             socket = new Socket(dstAddress, dstPort);
@@ -51,6 +75,7 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
             }
 
             outputStream.flush();
+            publishProgress(null);
             //outputStream.close();
 
             while (true) {
@@ -75,21 +100,31 @@ public class SocketClientAutoLoginController extends AsyncTask<Void, Void, Void>
             // TODO Auto-generated catch block
             e.printStackTrace();
             response = "UnknownHostException: " + e.toString();
+            cancel(true);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             response = "IOException: " + e.toString();
-        } finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            cancel(true);
         }
+//        finally {
+//            if (socket != null) {
+//                try {
+//                    socket.close();
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        progressDialog.dismiss();
+        Toast.makeText(this.context, "Transfer data completed", Toast.LENGTH_SHORT).show();
+        super.onProgressUpdate(values);
     }
 
     @Override

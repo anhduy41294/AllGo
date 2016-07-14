@@ -1,6 +1,7 @@
 package com.kun.allgo.Views.Adapter;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -167,19 +168,23 @@ public class ApplicationAccountAdapter extends RecyclerView.Adapter<ApplicationA
         customDialog.setClickListener(new CustomDialog.ClickListener() {
             @Override
             public void onConfirmClick() {
-                Toast.makeText(context, "web", Toast.LENGTH_SHORT).show();
+                ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("Scanning...");
+                progressDialog.show();
                 SocketClientAutoLoginController socketClientAutoLoginController =
                         new SocketClientAutoLoginController(GlobalVariable.IPCurrentPC,
-                                GlobalVariable.PortCurrentPC, encryptedUser, encryptedPass, appType, WEBFORM_CODE, encryptedEmail);
+                                GlobalVariable.PortCurrentPC, encryptedUser, encryptedPass, appType, WEBFORM_CODE, encryptedEmail, context, progressDialog);
                 socketClientAutoLoginController.execute();
             }
 
             @Override
             public void onCancelClick() {
-                Toast.makeText(context, "win", Toast.LENGTH_SHORT).show();
+                ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("Scanning...");
+                progressDialog.show();
                 SocketClientAutoLoginController socketClientAutoLoginController =
                         new SocketClientAutoLoginController(GlobalVariable.IPCurrentPC,
-                                GlobalVariable.PortCurrentPC, encryptedUser, encryptedPass, appType, WINFORM_CODE, encryptedEmail);
+                                GlobalVariable.PortCurrentPC, encryptedUser, encryptedPass, appType, WINFORM_CODE, encryptedEmail, context, progressDialog);
                 socketClientAutoLoginController.execute();
             }
         });

@@ -1,5 +1,6 @@
 package com.kun.allgo.Views.Adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -51,8 +52,11 @@ public class LocalAccountAdapter extends RecyclerView.Adapter<LocalAccountAdapte
             public void onClick(View v) {
 //                SocketClient myClient = new SocketClient("192.168.1.76", 54015);
 //                myClient.execute();
+                ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("Scanning...");
+                progressDialog.show();
 
-                SocketClientWindowLogin socketClientWindowLogin = new SocketClientWindowLogin(current.getmIP(), 54015, current.getPasswordLC());
+                SocketClientWindowLogin socketClientWindowLogin = new SocketClientWindowLogin(current.getmIP(), 54015, current.getPasswordLC(), context, progressDialog);
                 socketClientWindowLogin.execute();
             }
         });
